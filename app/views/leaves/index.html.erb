@@ -1,0 +1,31 @@
+<div class="col-4" style="margin : 0 auto; padding: 10px">
+  <h1>Employee leaves data</h1></br>
+</div>
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <td>ID</td>
+      <td>Employee ID</td>
+      <td>From date</td>
+      <td>Status</td>
+      <td>Reason</td>
+      <td>leave type</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @leaves.each do |leave| %>
+      <tr>
+        <td><%= leave.id%></td>
+        <td><%= leave.employee_id %></td>
+        <td><%= leave.from_date%></td> 
+        <td><%= leave.status%></td>
+        <td><%= leave.reason%></td>
+        <td><%= leave.leave_type%></td>
+        <%# <td><%= link_to 'show', users_leave_path(leave)%>
+      </tr>
+   <% end %>
+  </tbody>
+</table>
+<%# <div class="col-2" style="margin : 0 auto; padding: 10px">
+<%= link_to 'Add new', new_users_leave_path, class: "btn btn-success" %>
+<%# </div> %>

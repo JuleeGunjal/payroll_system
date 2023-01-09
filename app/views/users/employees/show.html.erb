@@ -1,0 +1,18 @@
+<div class="col-6" style="margin : 0 auto;">
+  <h2><%= @employee.email %>'s details</h2>
+  <h4>Employee Name: <%= @employee.first_name %></h4>
+  <h4>ID: <%= @employee.id %></h4>
+  <h4>email: <%= @employee.email %></h4>
+  <h4>mobile number: <%= @employee.mobile_number %></h4>
+  <h4>Gender: <%= @employee.gender %></h4>
+  <h4>Address: <%= @employee.address %></h4>  
+  </br></br>
+  <div class="d-flex justify-content-center">  
+    <div class="col-2">
+      <%= link_to "Edit", edit_users_employee_path(@employee), class: "btn btn-warning"%> 
+    </div>
+    <div class="col-3">
+      <%= button_to "Destroy", users_employee_path(@employee), class: "btn btn-danger", data: {:confirm => 'Are you sure?'}, method: :delete%>
+    </div>
+  </div>
+</div>

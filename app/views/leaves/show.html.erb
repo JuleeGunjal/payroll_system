@@ -1,0 +1,18 @@
+<div class="col-6" style="margin : 0 auto;">
+  <h2><%= @leave.id %>'s details</h2>
+  <h4>employee Name: <%= Employee.find(@leave.employee_id).first_name %></h4>
+  <h4>ID: <%= @leave.id %></h4>
+  <h4>reason: <%= @leave.reason %></h4>
+  <h4>from_date: <%= @leave.from_date %></h4>
+  <h4>to date: <%= @leave.to_date %></h4>
+  <h4>status: <%= @leave.status %></h4>  
+  </br></br>
+  <div class="d-flex justify-content-center">  
+    <div class="col-2">
+      <%= link_to "Edit", edit_leafe_path(@leave), class: "btn btn-warning"%> 
+    </div>
+    <div class="col-3">
+      <%= button_to "Destroy", leafe_path(@leave), class: "btn btn-danger", data: {:confirm => 'Are you sure?'}, method: :delete %>
+    </div>
+  </div> 
+</div> 
