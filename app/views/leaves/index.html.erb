@@ -21,11 +21,11 @@
         <td><%= leave.status%></td>
         <td><%= leave.reason%></td>
         <td><%= leave.leave_type%></td>
-        <%# <td><%= link_to 'show', users_leave_path(leave)%>
+        <td><%= link_to 'show', leafe_path(leave)%>
       </tr>
    <% end %>
   </tbody>
 </table>
-<%# <div class="col-2" style="margin : 0 auto; padding: 10px">
-<%= link_to 'Add new', new_users_leave_path, class: "btn btn-success" %>
-<%# </div> %>
+<div class="col-2" style="margin : 0 auto; padding: 10px">
+<%= link_to 'Add new', new_leafe_path, class: "btn btn-success" %>
+ </div>
