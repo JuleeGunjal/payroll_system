@@ -39,17 +39,25 @@ class LeavesController < ApplicationController
 
   def update
     @leave = Leave.find(params[:id])
-    if authorised_admin? && @leave.update(leave_params)
+    binding.pry
+    if authorised_admin? || authorised_employee? && @leave.update(leave_params)
       flash[:notice] = "Sucessfully, updated the status of leave application"
       redirect_to '/leaves'
     else
       flash[:notice] = "Unauthorised user "
       redirect_to '/leaves/edit'
     end
-
   end
 
   def destroy
+    @leave = Leave.find(params[:id]) 
+    if @leave.destroy && authorised_admin? || authorised_employee?
+      flash[:notice] = " leave destroyed" 
+      redirect_to '/leaves/'
+    else
+      flash[:alert] = "Unauthorized User" 
+      render '/leaves/'
+    end
   end
 
   protected
