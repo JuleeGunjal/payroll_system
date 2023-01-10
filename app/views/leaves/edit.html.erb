@@ -1,14 +1,13 @@
 <div class="col-6" style="margin : 0 auto;">
   <h1>Updating Employee's leave status Updates</h1></br>
-  <%= binding.pry %>
-  <%# <%= render "form", employee: @employee %> 
-  <%= binding.pry%>
+
 <%= form_for(@leave, url: leafe_path) do |form| %>
   <table>
+  <% if current_user.type == 'Admin' %>
    <tr>
       <div>
         <td><%= form.radio_button :status, "Approved" %>
-          <%= form.label :Approved, "Approved" %></td>
+          <%= form.label :Approved, "Approved"%></td>
         <td><%= form.radio_button :status, "Cancelled" %>
           <%= form.label :Cancelled, "Cancelled" %></td>
       </div>
@@ -21,6 +20,26 @@
           <%= form.label :Unpaid, "Unpaid" %></td>
       </div>
     </tr>
+    <% elsif current_user.type == 'Employee' %>
+    <tr>
+        <div>
+        <td><%= form.label :from_date, "From date: " %></td>
+        <td><%= form.date_field :from_date %></td>
+      </div>
+    </tr>
+    <tr>
+      <div>
+        <td> <%= form.label :to_date, 'To date: '%></td>
+        <td><%= form.date_field :to_date %></td>
+      </div>
+    </tr>
+    <tr>
+      <div>
+        <td><%= form.label :reason, 'Reason: '%></td>
+        <td><%= form.text_field :reason %></td>
+      </div>
+    </tr>
+  <% end %>
     
   </table></br>
 
