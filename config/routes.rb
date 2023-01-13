@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :leaves
+  resources :attendances
  
   #get '/my_leaves/:current_user.id', to: 'leaves#my_leaves'
 end

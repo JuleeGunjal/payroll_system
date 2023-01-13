@@ -1,4 +1,4 @@
-<%= binding.pry%>
+
 <%= form_for(@leave, url: leaves_path) do |form| %>
   <table>
     <tr>
@@ -34,7 +34,7 @@
     <tr>
       <div>
         <td><%= form.label :leave_type, 'leave type: ' %></td>
-        <td> <%= form.text_field :leave_type, value:  %></td>
+        <td> <%= form.text_field :leave_type, value: 'paid' %></td>
       </div>
     </tr>
     
