@@ -62,10 +62,6 @@ class LeavesController < ApplicationController
     end
   end
 
- 
-
-
-
   protected
 
   def authorised_employee?
@@ -83,7 +79,7 @@ class LeavesController < ApplicationController
     true
   end
    
-  def skip_weekends  
+  def skip_weekends
     @leave = fetch_leave
     date = @leave.from_date
     @office_days = 0
