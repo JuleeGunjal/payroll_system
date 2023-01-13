@@ -1,12 +1,11 @@
 class LeavesController < ApplicationController
-  
+  after_action :update_paid_leaves, only: :update, if: :paid?
+
   def index
-    binding.pry
     @leaves = Leave.all
   end
 
-  def show
-    binding.pry
+  def show    
     @leave = Leave.find(params[:id])
     if authorised_employee? || authorised_admin?
       @leave = Leave.find(params[:id])
@@ -29,25 +28,21 @@ class LeavesController < ApplicationController
       flash[:notice] = "Unauthorised user or invalid details"
       redirect_to '/leaves/new'
     end
-
   end
 
   def edit
     @leave = Leave.find(params[:id])
-  
   end
 
   def update
     @leave = Leave.find(params[:id])
-    binding.pry
-   @inc = skip_weekends
-    paid?
     if authorised_admin? || authorised_employee?
-      if paid? && @leave.update(leave_params)
+      if paid? && @leave.update(leave_params) && @leave.status == 'Pending' 
         flash[:notice] = "Sucessfully, updated the status of leave application"
         redirect_to '/leaves'
-      else 
-        flash[:notice] = "change the type of leaves"
+      elsif @leave.update(leave_params)
+        @leave.update(leave_type: 'unpaid')
+        flash[:notice] = "Sucessfully, updated the status of leave application with type unpaid leave"
         redirect_to '/leaves'
       end
     else
@@ -67,6 +62,8 @@ class LeavesController < ApplicationController
     end
   end
 
+ 
+
 
 
   protected
@@ -77,35 +74,37 @@ class LeavesController < ApplicationController
 
   def paid?
     @leave = fetch_leave
-    count = Employee.find(@leave.employee_id).paid_leaves
-    @inc = skip_weekends
-    if count < @inc
-      @unpaid = @inc - count
+    leave_count = Employee.find(@leave.employee_id).paid_leaves
+    count = @leave.to_date - @leave.from_date + 1
+    @office_days = skip_weekends
+    if leave_count < count
       false
     end
     true
   end
    
-   
-  def skip_weekends
+  def skip_weekends  
     @leave = fetch_leave
     date = @leave.from_date
-    @inc = 0
-    until date <= @leave.to_date do
+    @office_days = 0
+    until date  <= @leave.to_date do
       if !date.on_weekend?
-        @inc = inc + 1
+        @office_days = office_days + 1
       end
       date = date.next
     end
-    @inc
+    @office_days
   end
+ 
 
   def update_paid_leaves
     @leave = fetch_leave
-    @employee = Employee.find(@leave.employee_id)
-    @employee.paid_leaves
-    @employee.update(paid_leaves)
-
+    count = @leave.to_date - @leave.from_date + 1
+    if @leave.status == 'Approved'
+      count = (count - @office_days) + 1
+      employee = @leave.employee
+      employee.update(paid_leaves: employee.paid_leaves - count)
+    end
   end
 
   def fetch_leave
@@ -116,4 +115,4 @@ class LeavesController < ApplicationController
     params.require(:leave).permit(:status, :reason, :from_date, :to_date, :leave_type, :employee_id)
   end
 
-end
+ end
