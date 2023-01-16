@@ -1,0 +1,28 @@
+<div class="col-4" style="margin : 0 auto;">
+  <div class="col-8" style="margin : 0 auto;">
+    <h1>Edit Salary</h1></br>
+  </div>
+ 
+<%= form_for(@salary, url: salary_path) do |form| %>
+  <table>
+    
+    <tr>
+      <div>
+        <td><%= form.label :date, "Date: " %></td>
+        <td><%= form.date_field :date, discard_day: true %></td> 
+      </div>
+    </tr> 
+    <tr>
+      <div>
+        <td><%= form.label :total_salary, 'Total salary: '%></td>
+        <td><%= form.number_field :total_salary, min: "0" %></td>
+      </div>
+    </tr>
+   </table></br>
+
+  <div class="col-3", style="margin: 0 auto;">
+    <%= form.submit class: "btn btn-warning"%>
+  </div>
+<% end %>
+
+</div>

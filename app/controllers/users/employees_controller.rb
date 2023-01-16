@@ -11,8 +11,8 @@ class Users::EmployeesController < ApplicationController
       render 'home/index'
     end
   end
-  def new
-    binding.pry
+
+  def new   
     if authorised_admin?
       @employee = Employee.new
     else
@@ -33,12 +33,10 @@ class Users::EmployeesController < ApplicationController
   end
 
   def edit
-    binding.pry
     @employee = Employee.find(params[:id])
   end
 
   def update
-    binding.pry
     @employee = Employee.find(params[:id])    
     if authorised_admin? && @employee.update(employee_params)
       render 'home/index'
@@ -60,9 +58,6 @@ class Users::EmployeesController < ApplicationController
   end
 
   protected
-
-
-
 
   def employee_params
     params.require(:employee).permit(:email, :password, :type, :first_name, :last_name, :gender, :date_of_joining, :mobile_number, :address)

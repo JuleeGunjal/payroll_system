@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_10_053610) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_17_091335) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,6 +34,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_10_053610) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_leaves_on_employee_id"
+  end
+
+  create_table "salaries", force: :cascade do |t|
+    t.date "date"
+    t.integer "total_salary"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_salaries_on_employee_id"
+  end
+
+  create_table "tax_deductions", force: :cascade do |t|
+    t.string "tax_type"
+    t.integer "ammount"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_tax_deductions_on_employee_id"
   end
 
   create_table "users", force: :cascade do |t|
