@@ -14,19 +14,18 @@ class AttendancesController < ApplicationController
   end
 
   def new
-    @attendance = Attendance.new
-   
+    @attendance = Attendance.new   
   end
 
   def create
     @attendance = Attendance.create(attendance_params)
-    if authorised_admin? && @attendance.save
-     @attendance = @attendance.update(working_days: find_working_days(@attendance.id))
+    if !(@attendance.present?) && authorised_admin? && @attendance.save 
+      @attendance = @attendance.update(working_days: find_working_days(@attendance.id), unpaid_leaves: find_total_leaves(@attendance.id))        
       flash[:notice] = 'Sucessfully, saved the attendance details'
       redirect_to '/attendances'
     else
       flash[:notice] = 'Unauthorised user or invalid details'
-      redirect_to '/attendances/new'
+      render :new
     end
   end
 
@@ -34,7 +33,7 @@ class AttendancesController < ApplicationController
   end
 
   def update
-    if authorised_admin?  @attendance.update(attendance_params) 
+    if @attendance.update(attendance_params) 
         flash[:notice] = 'Sucessfully, updated the attendance of employee'
         redirect_to '/attendances'
     else
@@ -54,19 +53,31 @@ class AttendancesController < ApplicationController
   end
 
 
-
   protected
   def fetch_attendance
     @attendance = Attendance.find(params[:id]) 
   end
 
-  def find_unpaid_leaves
-    binding.pry
-    leaves = Leave.where(leave_type: 'unpaid')
-    @unpaid_leaves = 0
+  def find_total_leaves(id)
+    @attendance = Attendance.find(id)
+    leaves = Leave.where('extract(month from from_date) = ?', @attendance.month).where(leave_type: 'Unpaid').where(employee_id: @attendance.employee_id)
+    @total_leaves = 0
     leaves.each do |leave|
-      @unpaid_leaves =  @unpaid_leaves  
+      @total_leaves = @total_leaves + (leave.to_date - leave.from_date).to_i + 1 - skip_weekends(leave)
+    end  
+    @total_leaves  
+  end
+
+  def skip_weekends(leave)    
+    date = leave.from_date
+    @office_days = 0
+    until date  <= leave.to_date do
+      if !date.on_weekend?
+        @office_days = @office_days + 1
+      end
+      date = date.next
     end
+    @office_days
   end
 
   def find_working_days(id)
