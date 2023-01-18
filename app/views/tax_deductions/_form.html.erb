@@ -1,0 +1,39 @@
+
+<%= form_for(@tax_deduction, url: tax_deductions_path) do |form| %>
+  <table>
+   <tr>
+      <div>
+        <td><%= form.label :financial_year, 'Financial Year: '%></td>
+        <td><%= form.select :financial_year, 1990..Date.today.year, :class => 'year'  %></td>
+      </div>
+    </tr>
+    
+    <tr>
+      <div>
+        <td><%= form.label :tax_type, "Tax Type: " %></td>
+        <td><%= form.select :tax_type, ['NPS', 'Non-NPS']%></td> 
+      </div>
+    </tr> 
+
+    <tr>
+      <div>
+        <td><%= form.label :ammount, 'Ammount: '%></td>
+        <td><%= form.number_field :ammount, min: "0" %></td>
+      </div>
+    </tr>
+
+    
+   <tr>
+      <div>
+        <td><%= form.label :employee_id,"Employee Id: " %></td>
+        <td><%= form.number_field :employee_id, value: current_user.id %></td>
+      </div>
+    </tr> 
+   
+    
+  </table></br>
+
+  <div class="col-3", style="margin: 0 auto;">
+    <%= form.submit class: "btn btn-warning"%>
+  </div>
+<% end %>

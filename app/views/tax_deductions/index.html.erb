@@ -1,0 +1,29 @@
+<div class="col-4" style="margin : 0 auto; padding: 10px">
+  <h1>Employee Tax deduction data</h1></br>
+</div>
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <td>ID</td>
+      <td>Employee ID</td>
+      <td>Tax type</td>
+      <td>Total Ammount</td>
+      <td>Financial Year</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tax_deductions.each do |tax_deduction| %>
+      <tr>
+        <td><%= tax_deduction.id%></td>
+        <td><%= tax_deduction.employee_id %></td>
+        <td><%= tax_deduction.tax_type%></td> 
+        <td><%= tax_deduction.ammount%></td>
+        <td><%= tax_deduction.financial_year%></td>
+        <td><%= link_to 'show', tax_deduction_path(tax_deduction)%>
+      </tr>
+   <% end %>
+  </tbody>
+</table>
+<div class="col-2" style="margin : 0 auto; padding: 10px">
+<%= link_to 'Add new', new_tax_deduction_path, class: "btn btn-success" %>
+ </div>
