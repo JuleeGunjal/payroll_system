@@ -1,11 +1,39 @@
-<div class="col-6" style="margin : 0 auto;">
-  <h2><%= @leave.id %>'s details</h2>
-  <h4>employee Name: <%= Employee.find(@leave.employee_id).first_name %></h4>
-  <h4>ID: <%= @leave.id %></h4>
-  <h4>reason: <%= @leave.reason %></h4>
-  <h4>from_date: <%= @leave.from_date %></h4>
-  <h4>to date: <%= @leave.to_date %></h4>
-  <h4>status: <%= @leave.status %></h4>  
+<div class="col-8" style="margin : 0 auto;">  
+  <table class="table table-striped">
+    <thead style="color: blue">
+      <th><%= get_name(@leave) %>'s  leave Details</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">ID</th>
+        <td><%= @leave.employee.id %></td>      
+      </tr>
+      <tr>
+        <th scope="row">Employee's  Name</th>
+        <td><%= get_name(@leave) %></td>
+      </tr>
+      <tr>
+        <th scope="row">From Date</th>
+        <td ><%= @leave.from_date %></td>     
+      </tr>
+      <tr>
+        <th scope="row">To date</th>
+        <td ><%= @leave.to_date %></td>     
+      </tr>
+      <tr>
+        <th scope="row">Reason</th>
+        <td ><%= @leave.reason %></td>     
+      </tr>
+      <tr>
+        <th scope="row">status</th>
+        <td ><%= @leave.status %></td>     
+      </tr>
+      <tr>
+        <th scope="row">Leave Type</th>
+        <td ><%= @leave.leave_type %></td>     
+      </tr>
+    </tbody>
+  </table>
   </br></br>
   <div class="d-flex justify-content-center">  
     <div class="col-2">

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :attendances
   resources :salaries
   resources :tax_deductions
+  resources :payslips
  
   #get '/my_leaves/:current_user.id', to: 'leaves#my_leaves'
 end

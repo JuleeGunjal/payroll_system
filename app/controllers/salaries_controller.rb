@@ -1,7 +1,16 @@
 class SalariesController < ApplicationController
   before_action :fetch_salary, only: %i[show edit update destroy]
+
   def index
     @salaries = Salary.all
+    if authorised_admin? 
+      @salaries = Salary.all
+    elsif authorised_employee?
+      @salaries = Salary.where(employee_id: current_user.id)
+    else
+      flash[:alert] = "Unauthorized User" 
+      redirect_to root_path
+    end
   end
 
   def show
@@ -33,7 +42,7 @@ class SalariesController < ApplicationController
       end
     else
       flash[:notice] = "Unauthorised user or already entry exist"
-      redirect_to edit_salary_path(@existing_salary)
+      redirect_to salaries_path
     end
   end
 

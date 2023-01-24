@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   end
 
   def authorised_employee?
-    user_signed_in? && current_user == Employee.find(current_user.id)
+   
+     current_user == Employee.find(current_user.id) && user_signed_in? 
   end
 
 end

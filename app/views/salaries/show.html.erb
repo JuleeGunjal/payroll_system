@@ -1,11 +1,27 @@
-<div class="col-6" style="margin : 0 auto;">
-  <h2><%= @salary.id %>'s details</h2>
-  <h4>employee Name: <%= Employee.find(@salary.employee_id).first_name %></h4>
-  <h4>ID: <%= @salary.id %></h4>
-  <h4>month: <%= @salary.date %></h4>
-  <h4>working_days: <%= @salary.total_salary %></h4>
-  
- 
+<div class="col-8" style="margin : 0 auto;">  
+  <table class="table table-striped">
+    <thead style="color: blue">
+      <th><%= get_name(@salary) %>'s  Salary Details</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">ID</th>
+        <td><%= @salary.employee.id %></td>      
+      </tr>
+      <tr>
+        <th scope="row">Employee's  Name</th>
+        <td><%= get_name(@salary) %></td>
+      </tr>
+      <tr>
+        <th scope="row">Month</th>
+        <td ><%= Date::MONTHNAMES[@salary.date.month] %></td>     
+      </tr>
+      <tr>
+        <th scope="row">Total salary</th>
+        <td ><%= @salary.total_salary %></td>     
+      </tr> 
+    </tbody>
+  </table> 
   </br></br>
   <div class="d-flex justify-content-center">  
     <div class="col-2">

@@ -13,13 +13,25 @@
 
   <body>
     <%= render 'home/header'%>
-    <div class="container">     
-     <% if notice %>
-       <p class="notice"><%= notice %></p>
+    <div>         
+      <% if notice %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <p class="notice"><%= notice %></p>
+        </div>
       <% elsif alert%>
-        <p class="alert"><%= alert %></p>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <p class="alert"><%= alert %></p>
+        </div>
       <% end %>
+      
+      <div class="row">
+        <div class="col-2" style="margin : 0 auto; padding-top: 10px;"><%= render 'home/dropdown'%></div> 
+        <div class="col-10" style="margin : 0 auto; padding-top : 10px"><%= yield %></div>
+       </div>
+      </div>
+   
+    <%# </div>
       <%= yield %>
-    </div>
+    <%# </div> %> 
   </body>
 </html>

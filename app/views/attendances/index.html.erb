@@ -1,25 +1,25 @@
-<div class="col-4" style="margin : 0 auto; padding: 10px">
-  <h1>Employee Attendance data</h1></br>
+<div class="col-6" style="margin : 0 auto; padding: 10px">
+  <h1>Attendance data</h1></br>
 </div>
 <table class="table table-striped">
   <thead class="thead-light">
     <tr>
-      <td>ID</td>
-      <td>Employee ID</td>
-      <td>Month</td>
-      <td>working_days</td>
-      <td>Unpaid_leaves</td>
+      <th>ID</th>
+      <th>Employee ID</th>
+      <th>Month</th>
+      <th>Working Days</th>
+     
       </tr>
   </thead>
   <tbody>
     <% @attendances.each do |attendance| %>
       <tr>
-        <td><%= attendance.id%></td>
+        <td><%= link_to "#{attendance.id}", attendance_path(attendance)%></td>
         <td><%= attendance.employee_id %></td>
         <td><%= attendance.month%></td> 
         <td><%= attendance.working_days%></td>
-        <td><%= attendance.unpaid_leaves%></td>
-        <td><%= link_to 'show', attendance_path(attendance)%>
+      
+       
       </tr>
    <% end %>
   </tbody>

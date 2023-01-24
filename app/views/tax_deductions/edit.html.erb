@@ -2,7 +2,7 @@
   <h1>Updating Tax Deductions </h1></br>
 
 <%= form_for(@tax_deduction, url: tax_deduction_path) do |form| %>
-  <table>
+<table>
   <% if current_user.type == 'Employee' %>
    <tr>
       <div>

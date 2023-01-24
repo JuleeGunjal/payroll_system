@@ -1,5 +1,5 @@
-<div class="col-4" style="margin : 0 auto; padding: 10px">
-  <h1>All Employees data</h1></br>
+<div class="col-8" style="margin : 0 auto; padding: 10px">
+  <h2>Employees data</h2></br>
 </div>
 <table class="table table-striped">
   <thead class="thead-light">
@@ -14,10 +14,10 @@
     <% @employees.each do |employee| %>
       <tr>
         <td><%= employee.id%></td>
-        <td><%= employee.first_name %></td>
+        <td><%= link_to "#{employee.first_name}", users_employee_path(employee) %></td>
         <td><%= employee.date_of_joining%></td> 
         <td><%= employee.email%></td>
-        <td><%= link_to 'show', users_employee_path(employee)%></td>
+       
       </tr>
    <% end %>
   </tbody>

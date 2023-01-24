@@ -1,7 +1,15 @@
 class AttendancesController < ApplicationController
   before_action :fetch_attendance, only: %i[show edit update destroy]
+
   def index
-    @attendances = Attendance.all.order(:month)
+    if authorised_admin?
+      @attendances = Attendance.all.order(:month)
+    elsif authorised_employee?
+      @attendances = Attendance.where(employee_id: current_user.id)
+    else
+      flash[:alert] = "Unauthorized User" 
+      redirect_to root_path
+    end
   end
 
   def show
@@ -18,14 +26,14 @@ class AttendancesController < ApplicationController
   end
 
   def create
-    @attendance = Attendance.create(attendance_params)
-    if !(@attendance.present?) && authorised_admin? && @attendance.save 
-      @attendance = @attendance.update(working_days: find_working_days(@attendance.id), unpaid_leaves: find_total_leaves(@attendance.id))        
+    @attendance = Attendance.new(attendance_params)
+    if !(Attendance.find_by(month: @attendance.month, employee_id: @attendance.employee_id)) && authorised_admin? && @attendance.save
+      @attendance = @attendance.update(working_days: find_working_days(@attendance.id), unpaid_leaves: find_total_unpaid_leaves(@attendance.id))        
       flash[:notice] = 'Sucessfully, saved the attendance details'
       redirect_to '/attendances'
     else
       flash[:notice] = 'Unauthorised user or invalid details'
-      render :new
+      redirect_to '/attendances'
     end
   end
 
@@ -58,7 +66,7 @@ class AttendancesController < ApplicationController
     @attendance = Attendance.find(params[:id]) 
   end
 
-  def find_total_leaves(id)
+  def find_total_unpaid_leaves(id)
     @attendance = Attendance.find(id)
     leaves = Leave.where('extract(month from from_date) = ?', @attendance.month).where(leave_type: 'Unpaid').where(employee_id: @attendance.employee_id)
     @total_leaves = 0
@@ -67,6 +75,8 @@ class AttendancesController < ApplicationController
     end  
     @total_leaves  
   end
+
+
 
   def skip_weekends(leave)    
     date = leave.from_date

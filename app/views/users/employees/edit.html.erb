@@ -1,42 +1,33 @@
 <div class="col-6" style="margin : 0 auto;">
-  <h1>Editing Employee Details</h1></br>
+  <h2>Editing Employee Details</h2></br>
   <%= form_for(@employee, url: users_employee_path) do |form| %>
   <table>
     <tr>
       <div>
-        <td><%= form.label :first_name, "Name: " %></td>
+        <td><%= form.label :first_name, "First Name: " %></td>
         <td><%= form.text_field :first_name %></td>
       </div>
     </tr>
      <tr>
       <div>
-        <td><%= form.label :last_name, "Name: " %></td>
+        <td><%= form.label :last_name, "Last Name: " %></td>
         <td><%= form.text_field :last_name %></td>
       </div>
     </tr>
-    <tr>
-      <div>
-        <td> <%= form.label :password, 'Password: '%></td>
-        <td><%= form.password_field :password %></td>
-      </div>
-    </tr>
-    <tr>
-      <div>
-        <td><%= form.label :password, 'Confirm -Password: '%></td>
-        <td><%= form.password_field :password_confirmation %></td>
-      </div>
-    </tr>
-    <tr>
+       <tr>
       <div>
         <td><%= form.label :email,"Email: " %></td>
         <td><%= form.text_field :email %></td>
       </div>
     </tr>
+  
+ 
     <tr>
       <div>
+        <td><%= form.label :gender, 'Gender: '%></td>
         <td><%= form.radio_button :gender, "Female" %>
-          <%= form.label :Female, "Female" %></td>
-        <td><%= form.radio_button :gender, "Male" %>
+          <%= form.label :Female, "Female" %>&nbsp&nbsp&nbsp&nbsp
+        <%= form.radio_button :gender, "Male" %>
           <%= form.label :Male, "Male" %></td>
       </div>
     </tr>

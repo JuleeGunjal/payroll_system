@@ -1,11 +1,31 @@
-<div class="col-6" style="margin : 0 auto;">
-  <h2><%= @attendance.id %>'s details</h2>
-  <h4>employee Name: <%= Employee.find(@attendance.employee_id).first_name %></h4>
-  <h4>ID: <%= @attendance.id %></h4>
-  <h4>month: <%= @attendance.month %></h4>
-  <h4>working_days: <%= @attendance.working_days %></h4>
-  <h4>unpaid_leaves: <%= @attendance.unpaid_leaves %></h4>
- 
+<div class="col-8" style="margin : 0 auto;">  
+  <table class="table table-striped">
+    <thead style="color: blue">
+      <th><%= get_name(@attendance) %>'s  attendance Details</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row"> Employee ID</th>
+        <td><%= @attendance.employee.id %></td>      
+      </tr>
+      <tr>
+        <th scope="row">Employee's  Name</th>
+        <td><%= get_name(@attendance) %></td>
+      </tr>
+      <tr>
+        <th scope="row">Month</th>
+        <td ><%= @attendance.month %></td>     
+      </tr>
+      <tr>
+        <th scope="row">Working days </th>
+        <td ><%= @attendance.working_days %></td>     
+      </tr>
+      <tr>
+        <th scope="row">Unpaid leaves</th>
+        <td ><%= @attendance.unpaid_leaves %></td>     
+      </tr>       
+    </tbody>
+  </table> 
   </br></br>
   <div class="d-flex justify-content-center">  
     <div class="col-2">

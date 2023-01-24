@@ -1,5 +1,7 @@
 class TaxDeductionsController < ApplicationController
+
   before_action :fetch_deduction, only: %i[show edit update destroy]
+  
   def index
     if authorised_admin? 
       @tax_deductions = TaxDeduction.all
@@ -22,11 +24,16 @@ class TaxDeductionsController < ApplicationController
   end
 
   def new
-    @tax_deduction = TaxDeduction.new
+    
+    if authorised_employee?
+      @tax_deduction = TaxDeduction.new
+    else
+      flash[:notice] = "Unauthorised user or invalid details"
+      redirect_to tax_deductions_path
+    end
   end
 
   def create
-    binding.pry
     @tax_deduction = TaxDeduction.new(tax_deduction_params)    
     if authorised_employee? &&  @tax_deduction.save
         flash[:notice] = "Sucessfully, saved the employee's tax_deduction details"
@@ -38,6 +45,12 @@ class TaxDeductionsController < ApplicationController
   end
 
   def edit 
+    if authorised_employee?
+      redirect_to  edit_tax_deduction_path(@tax_deduction)
+    else
+      flash[:notice] = "Unauthorised user or invalid details"
+      redirect_to tax_deductions_path
+    end
   end
 
   def update

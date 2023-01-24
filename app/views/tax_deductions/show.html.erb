@@ -1,12 +1,32 @@
-<div class="col-6" style="margin : 0 auto;">
-  <h2><%= @tax_deduction.id %>'s details</h2>
-  <h4>employee Name: <%= Employee.find(@tax_deduction.employee_id).first_name %></h4>
-  <h4>ID: <%= @tax_deduction.id %></h4>
-  <h4>Financial Year: <%= @tax_deduction.financial_year %></h4>
-  <h4>Tax Type: <%= @tax_deduction.tax_type %></h4>
-  <h4>Ammount: <%= @tax_deduction.ammount %></h4>
+<div class="col-8" style="margin : 0 auto;">  
+  <table class="table table-striped">
+    <thead style="color: blue">
+      <th><%= get_name(@tax_deduction) %>'s  Deductions Details</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">ID</th>
+        <td><%= @tax_deduction.employee.id %></td>      
+      </tr>
+      <tr>
+        <th scope="row">Employee's  Name</th>
+        <td><%= get_name(@tax_deduction) %></td>
+      </tr>
+      <tr>
+        <th scope="row">Financial Year</th>
+        <td ><%= @tax_deduction.financial_year %></td>     
+      </tr>
+      <tr>
+        <th scope="row">Tax Type</th>
+        <td ><%= @tax_deduction.tax_type %></td>     
+      </tr> 
+       <tr>
+        <th scope="row">Deduction ammount</th>
+        <td ><%= @tax_deduction.ammount %></td>     
+      </tr> 
 
-  
+    </tbody>
+  </table> 
  
   </br></br>
   <div class="d-flex justify-content-center">  

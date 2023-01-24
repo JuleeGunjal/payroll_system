@@ -2,16 +2,23 @@ class LeavesController < ApplicationController
   after_action :update_paid_leaves, only: :update, if: :paid?
 
   def index
-    @leaves = Leave.all
+    if authorised_admin?
+      @leaves = Leave.all
+    elsif authorised_employee?
+      @leaves = Leave.where(employee_id: current_user.id)
+    else
+      flash[:alert] = "Unauthorized User" 
+      redirect_to root_path
+    end       
   end
 
   def show    
     @leave = Leave.find(params[:id])
-    if authorised_employee? || authorised_admin?
+    if authorised_admin? ||  authorised_employee?  
       @leave = Leave.find(params[:id])
     else
       flash[:alert] = "Unauthorized User" 
-      render 'home/index'
+      redirect_to root_path
     end
   end
 
@@ -64,9 +71,6 @@ class LeavesController < ApplicationController
 
   protected
 
-  def authorised_employee?
-    current_user == Employee.find(@leave.employee_id)
-  end
 
   def paid?
     @leave = fetch_leave

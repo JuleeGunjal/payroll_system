@@ -1,27 +1,27 @@
-<div class="col-4" style="margin : 0 auto; padding: 10px">
+<div class="col-8" style="margin : 0 auto; padding: 10px">
   <h1>Employee leaves data</h1></br>
 </div>
 <table class="table table-striped">
   <thead class="thead-light">
     <tr>
-      <td>ID</td>
-      <td>Employee ID</td>
-      <td>From date</td>
-      <td>Status</td>
-      <td>Reason</td>
-      <td>leave type</td>
+      
+      <th>Employee ID</th>
+      <th>Employee Name</th>
+      <th>From date</th>
+      <th>To date</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
     <% @leaves.each do |leave| %>
       <tr>
-        <td><%= leave.id%></td>
+        
         <td><%= leave.employee_id %></td>
+        <td><%=  link_to "#{leave.employee.first_name}", leafe_path(leave) %></td>
         <td><%= leave.from_date%></td> 
-        <td><%= leave.status%></td>
-        <td><%= leave.reason%></td>
-        <td><%= leave.leave_type%></td>
-        <td><%= link_to 'show', leafe_path(leave)%>
+        <td><%= leave.to_date%></td>
+        <td><%= leave.status%></td>     
+       
       </tr>
    <% end %>
   </tbody>
