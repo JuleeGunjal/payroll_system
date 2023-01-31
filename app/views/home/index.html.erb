@@ -1,1 +1,16 @@
-<h1>HOME</h1>
+<%if signed_in?%>
+<div>
+  <h5>Welcome  <%=current_user.first_name%>!</h5>
+</div>
+<%end%>
+<div class="col-6" style="margin : 0 auto;">
+  <h3>Payroll Management Software</h3><br/>
+  <div style="color: magenta">
+    <h2>Make The Biggest Cost</h2><br/>
+    <h2>&nbsp&nbsp&nbsp&nbsp&nbspThe Smallest Of Worries</h2>
+  </div><br/>
+  <div>
+    <p>Simplify enterprise payroll complexities with a powerfully secure, accurate,
+      automated and 100% compliant payroll system, without breaking a sweat!</p>
+  </div>
+</div>

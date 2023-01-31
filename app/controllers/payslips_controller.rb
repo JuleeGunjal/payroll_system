@@ -1,6 +1,7 @@
 class PayslipsController < ApplicationController
   
   before_action :fetch_payslip, only: %i[show edit update destroy]
+  
 
   def index
     if authorised_admin?
@@ -8,19 +9,25 @@ class PayslipsController < ApplicationController
     elsif authorised_employee?
       @payslips = Payslip.where(employee_id: current_user.id)
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised") 
       redirect_to root_path
     end    
   end
 
   def show
     @payslip = Payslip.find(params[:id])
-    if authorised_admin? || authorised_employee?
-      @payslip = Payslip.find(params[:id])
-    else
-      flash[:alert] = "Unauthorized User" 
-      redirect_to root_path
-    end
+    # if authorised_admin? || authorised_employee?
+    #   @payslip = Payslip.find(params[:id])
+    # else
+    #   flash[:alert] =  I18n.t("unauthorised") 
+    #   redirect_to root_path
+    # end
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "file_name", template: "payslips/payslip", formats: [:html], layout: 'pdf'
+      end
+    end  
   end
 
   def new
@@ -36,24 +43,24 @@ class PayslipsController < ApplicationController
       @payslip.taxable_income = find_taxable_income
       @payslip.payable_salary = find_payable_salary
       if  @payslip.save
-        flash[:notice] = "Sucessfully, saved the employee's payslip details"
+        flash[:notice] = I18n.t("successful")
         redirect_to payslips_path
       else
         flash[:notice] = "Invalid details"
         redirect_to payslips_path
       end
     else
-      flash[:notice] = "Unauthorised user or already entry exist"
-      redirect_to edit_payslip_path(@existing_payslip)
+      flash[:alert] =  I18n.t("unauthorised")
+      redirect_to payslips_path
     end
   end
 
   def destroy
     if @payslip.destroy && authorised_admin?
-      flash[:notice] = 'payslip destroyed' 
+     flash[:notice] = I18n.t("destroyed") 
       redirect_to payslips_path
     else
-      flash[:alert] = 'Unauthorized User'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to payslips_path
     end
   end

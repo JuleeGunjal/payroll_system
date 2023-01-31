@@ -1,14 +1,19 @@
 class Users::EmployeesController < ApplicationController
   
   def index
-    @employees = Employee.all
+    if authorised_admin? 
+      @employees = Employee.all
+    else
+      flash[:alert] = "Unauthorized User" 
+      redirect_to root_path
+    end 
   end
   def show
     if authorised_admin? 
       @employee = Employee.find(params[:id])
     else
       flash[:alert] = "Unauthorized User" 
-      render 'home/index'
+      redirect_to root_path
     end
   end
 
@@ -17,7 +22,7 @@ class Users::EmployeesController < ApplicationController
       @employee = Employee.new
     else
       flash[:alert] = "Unauthorized User" 
-      render 'home/index'
+      redirect_to root_path
     end
   end
 
@@ -39,7 +44,7 @@ class Users::EmployeesController < ApplicationController
   def update
     @employee = Employee.find(params[:id])    
     if authorised_admin? && @employee.update(employee_params)
-      render 'home/index'
+      redirect_to root_path
     else
       flash[:alert] = "Unauthorized User" 
       redirect_to "/users/sign_in"

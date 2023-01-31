@@ -2,12 +2,12 @@ class LeavesController < ApplicationController
   after_action :update_paid_leaves, only: :update, if: :paid?
 
   def index
-    if authorised_admin?
+    if signed_in? && authorised_admin?
       @leaves = Leave.all
-    elsif authorised_employee?
+    elsif signed_in? && authorised_employee?
       @leaves = Leave.where(employee_id: current_user.id)
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised") 
       redirect_to root_path
     end       
   end
@@ -17,22 +17,27 @@ class LeavesController < ApplicationController
     if authorised_admin? ||  authorised_employee?  
       @leave = Leave.find(params[:id])
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised") 
       redirect_to root_path
     end
   end
 
   def new
-    @leave = Leave.new
+    if !authorised_admin? && authorised_employee
+      @leave = Leave.new
+    else
+      flash[:alert] =  I18n.t("unauthorised") 
+      redirect_to root_path
+    end  
   end
 
   def create
     @leave = Leave.create(leave_params)
-    if authorised_employee? && @leave.save
-      flash[:notice] = "Sucessfully, saved the employee details"
+    if !authorised_admin? && authorised_employee? && @leave.save
+      flash[:notice] = I18n.t("successful")
       redirect_to '/leaves'
     else
-      flash[:notice] = "Unauthorised user or invalid details"
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to '/leaves/new'
     end
   end
@@ -45,15 +50,15 @@ class LeavesController < ApplicationController
     @leave = Leave.find(params[:id])
     if authorised_admin? || authorised_employee?
       if paid? && @leave.update(leave_params) && @leave.status == 'Pending' 
-        flash[:notice] = "Sucessfully, updated the status of leave application"
+        flash[:notice] = I18n.t("successful")
         redirect_to '/leaves'
       elsif @leave.update(leave_params)
         @leave.update(leave_type: 'unpaid')
-        flash[:notice] = "Sucessfully, updated the status of leave application with type unpaid leave"
+        flash[:notice] = I18n.t("successful")
         redirect_to '/leaves'
       end
     else
-      flash[:notice] = "Unauthorised user "
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to '/leaves/edit'
     end
   end
@@ -61,10 +66,10 @@ class LeavesController < ApplicationController
   def destroy
     @leave = Leave.find(params[:id]) 
     if @leave.destroy && authorised_admin? || authorised_employee?
-      flash[:notice] = " leave destroyed" 
+      flash[:notice] = I18n.t("destroyed") 
       redirect_to '/leaves/'
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised")
       render '/leaves/'
     end
   end

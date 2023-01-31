@@ -1,30 +1,34 @@
 class SalariesController < ApplicationController
   before_action :fetch_salary, only: %i[show edit update destroy]
 
-  def index
-    @salaries = Salary.all
+  def index      
     if authorised_admin? 
       @salaries = Salary.all
     elsif authorised_employee?
       @salaries = Salary.where(employee_id: current_user.id)
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to root_path
     end
   end
 
   def show
     @salary = Salary.find(params[:id])
-    if authorised_admin?
+    if authorised_admin? || authorised_employee?
       @salary = Salary.find(params[:id])
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised") 
       redirect_to root_path
     end
   end
 
   def new
-    @salary = Salary.new
+    if authorised_admin? 
+      @salary = Salary.new
+    else
+      flash[:alert] =  I18n.t("unauthorised") 
+      redirect_to root_path
+    end
   end
 
   def create
@@ -34,27 +38,27 @@ class SalariesController < ApplicationController
     if authorised_admin? && !(@existing_salary.present?) 
       @salary.date = updated_date
       if  @salary.save
-        flash[:notice] = "Sucessfully, saved the employee's salary details"
+        flash[:notice] = I18n.t("successful")
         redirect_to salaries_path
       else
         flash[:notice] = "Invalid details"
         redirect_to salaries_path
       end
     else
-      flash[:notice] = "Unauthorised user or already entry exist"
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to salaries_path
     end
   end
 
-  def edit 
+  def edit
   end
 
   def update
     if @salary.update(salary_params) 
-        flash[:notice] = 'Sucessfully, updated the attendance of employee'
-        redirect_to salaries_path
+      flash[:notice] = I18n.t("successful")
+      redirect_to salaries_path
     else
-      flash[:notice] = 'Unauthorised user'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to salaries_path
     end
   end
@@ -62,10 +66,10 @@ class SalariesController < ApplicationController
 
   def destroy   
     if @salary.destroy && authorised_admin?
-      flash[:notice] = 'salary destroyed' 
+      flash[:notice] = I18n.t("destroyed")
       redirect_to salaries_path
     else
-      flash[:alert] = 'Unauthorized User'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to salaries_path
     end
   end

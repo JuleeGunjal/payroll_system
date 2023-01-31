@@ -1,5 +1,5 @@
 <div class="col-8" style="margin : 0 auto; padding: 10px">
-  <h2>Payslips</h2></br>
+  <h2 style="text-align: center;">Payslips</h2></br>
 </div>
 <table class="table table-striped">
   <thead class="thead-light">
@@ -19,7 +19,7 @@
         <td><%= payslip.date%></td> 
         <td><%= payslip.taxable_income%></td>
         <td><%= payslip.payable_salary%></td>
-        <td><%= %>
+        <td><%= link_to 'PDF', payslip_path(payslip, format: :pdf)%>
       </tr>
    <% end %>
   </tbody>

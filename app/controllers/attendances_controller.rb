@@ -7,16 +7,16 @@ class AttendancesController < ApplicationController
     elsif authorised_employee?
       @attendances = Attendance.where(employee_id: current_user.id)
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised") 
       redirect_to root_path
     end
   end
 
   def show
-    if authorised_admin?
+    if authorised_admin? || authorised_employee?
       @attendance = Attendance.find(params[:id])
     else
-      flash[:alert] = 'Unauthorized User'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to '/attendances'
     end
   end
@@ -29,10 +29,10 @@ class AttendancesController < ApplicationController
     @attendance = Attendance.new(attendance_params)
     if !(Attendance.find_by(month: @attendance.month, employee_id: @attendance.employee_id)) && authorised_admin? && @attendance.save
       @attendance = @attendance.update(working_days: find_working_days(@attendance.id), unpaid_leaves: find_total_unpaid_leaves(@attendance.id))        
-      flash[:notice] = 'Sucessfully, saved the attendance details'
+      flash[:notice] = I18n.t("successful") 
       redirect_to '/attendances'
     else
-      flash[:notice] = 'Unauthorised user or invalid details'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to '/attendances'
     end
   end
@@ -42,20 +42,20 @@ class AttendancesController < ApplicationController
 
   def update
     if @attendance.update(attendance_params) 
-        flash[:notice] = 'Sucessfully, updated the attendance of employee'
+      flash[:notice] = I18n.t("successful")
         redirect_to '/attendances'
     else
-      flash[:notice] = 'Unauthorised user'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to '/attendances'
     end
   end
 
   def destroy   
     if @attendance.destroy && authorised_admin?
-      flash[:notice] = 'attendance destroyed' 
+      flash[:notice] = I18n.t("destroyed")
       redirect_to '/attendances/'
     else
-      flash[:alert] = 'Unauthorized User'
+      flash[:alert] =  I18n.t("unauthorised")
       render '/attendances/'
     end
   end

@@ -39,6 +39,14 @@ gem "redis", "~> 4.0"
 # Use Bootstrap icons
 gem 'bootstrap-icons-helper'
 
+# Use to generate PDF
+gem 'wicked_pdf'
+
+# wicked_pdf is a wrapper for wkhtmltopdf, to generate pdf on local machine
+gem 'wkhtmltopdf-binary'
+
+gem 'bootstrap-sass'
+
 # Use to convert Interger in English words
 gem 'to_words', '~> 1.1'
 

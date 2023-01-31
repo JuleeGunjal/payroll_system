@@ -8,7 +8,7 @@ class TaxDeductionsController < ApplicationController
     elsif authorised_employee?
       @tax_deductions = TaxDeduction.where(employee_id: current_user.id)
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised") 
       redirect_to root_path
     end
   end
@@ -18,7 +18,7 @@ class TaxDeductionsController < ApplicationController
     if authorised_admin? || authorised_employee?
       @tax_deduction = TaxDeduction.find(params[:id])
     else
-      flash[:alert] = "Unauthorized User" 
+      flash[:alert] =  I18n.t("unauthorised") 
       redirect_to root_path
     end
   end
@@ -28,7 +28,7 @@ class TaxDeductionsController < ApplicationController
     if authorised_employee?
       @tax_deduction = TaxDeduction.new
     else
-      flash[:notice] = "Unauthorised user or invalid details"
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to tax_deductions_path
     end
   end
@@ -36,10 +36,10 @@ class TaxDeductionsController < ApplicationController
   def create
     @tax_deduction = TaxDeduction.new(tax_deduction_params)    
     if authorised_employee? &&  @tax_deduction.save
-        flash[:notice] = "Sucessfully, saved the employee's tax_deduction details"
+      flash[:notice] = I18n.t("successful")
         redirect_to tax_deductions_path
     else
-      flash[:notice] = "Unauthorised user or invalid details"
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to edit_salary_path(@existing_salary)
     end
   end
@@ -48,17 +48,17 @@ class TaxDeductionsController < ApplicationController
     if authorised_employee?
       redirect_to  edit_tax_deduction_path(@tax_deduction)
     else
-      flash[:notice] = "Unauthorised user or invalid details"
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to tax_deductions_path
     end
   end
 
   def update
     if authorised_employee? && @tax_deduction.update(tax_deduction_params) 
-        flash[:notice] = 'Sucessfully, updated the attendance of employee'
+      flash[:notice] = I18n.t("successful")
         redirect_to tax_deductions_path
     else
-      flash[:notice] = 'Unauthorised user'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to tax_deductions_path
     end
   end
@@ -66,10 +66,10 @@ class TaxDeductionsController < ApplicationController
 
   def destroy   
     if @tax_deduction.destroy && authorised_employee?
-      flash[:notice] = 'tax_deduction destroyed' 
+      flash[:notice] = I18n.t("destroyed") 
       redirect_to tax_deductions_path
     else
-      flash[:alert] = 'Unauthorized User'
+      flash[:alert] =  I18n.t("unauthorised")
       redirect_to tax_deductions_path
     end
   end
