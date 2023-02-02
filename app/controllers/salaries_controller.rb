@@ -37,7 +37,7 @@ class SalariesController < ApplicationController
     @existing_salary = Salary.where(employee_id: @salary.employee_id, date: updated_date).first
     if authorised_admin? && !(@existing_salary.present?) 
       @salary.date = updated_date
-      if  @salary.save
+      if @salary.save
         flash[:notice] = I18n.t("successful")
         redirect_to salaries_path
       else

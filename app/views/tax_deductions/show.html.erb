@@ -1,39 +1,55 @@
-<div class="col-8" style="margin : 0 auto;">  
+<div class="col-8" style="margin : 0 auto;"> 
+
   <table class="table table-striped">
+
     <thead style="color: blue">
       <th><%= get_name(@tax_deduction) %>'s  Deductions Details</th>
     </thead>
+
     <tbody>
+
       <tr>
         <th scope="row">ID</th>
         <td><%= @tax_deduction.employee.id %></td>      
       </tr>
+
       <tr>
         <th scope="row">Employee's  Name</th>
         <td><%= get_name(@tax_deduction) %></td>
       </tr>
+      
       <tr>
         <th scope="row">Financial Year</th>
         <td ><%= @tax_deduction.financial_year %></td>     
       </tr>
+
       <tr>
         <th scope="row">Tax Type</th>
         <td ><%= @tax_deduction.tax_type %></td>     
       </tr> 
+
        <tr>
         <th scope="row">Deduction ammount</th>
         <td ><%= @tax_deduction.ammount %></td>     
       </tr> 
 
     </tbody>
+
   </table> 
  
   </br></br>
+
+  <% if current_user.type == 'Employee'%>
+
   <div class="d-flex justify-content-center">  
     <div class="col-2">
       <%= link_to "Edit", edit_tax_deduction_path(@tax_deduction), class: "btn btn-warning"%> 
     </div>
+
     <div class="col-3">
       <%= button_to "Destroy", tax_deduction_path(@tax_deduction), class: "btn btn-danger", data: {:confirm => 'Are you sure?'}, method: :delete %>
     </div>
-  </div> 
+
+  </div>
+
+<%end%>

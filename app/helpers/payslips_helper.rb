@@ -15,7 +15,8 @@ module PayslipsHelper
   end
 
   def get_unpaid_leaves
-    Attendance.find_by(employee_id: (@payslip.employee), month: @payslip.date.month).unpaid_leaves
+    @attendance =  Attendance.find_by(employee_id: (@payslip.employee), month: @payslip.date.month)
+    @attendance.unpaid_leaves
   end
 
   def get_total_leaves(employee_id, month)    
@@ -51,12 +52,7 @@ module PayslipsHelper
     end
     @office_days
   end
-
-  def unpaid_leaves
-    @attendance = Attendance.find_by(employee_id: @payslip.employee_id, month: @payslip.date.month)
-    @attendance.unpaid_leaves
-  end
-
+  
   def leave_cut
     (get_salary.to_i / find_working_days.to_i) * unpaid_leaves.to_i
   end

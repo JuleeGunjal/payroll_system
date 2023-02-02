@@ -1,37 +1,46 @@
-
-
-
 <table class="table table-striped", style=" border-spacing: 100px;">
+
   <thead>
     <tr>
       <th scope="col"></th>
     </tr>
   </thead>
+
   <tbody>
+
     <% if current_user == Admin.last%>
-    <tr>
-      <th scope="row", class="table-secondary" style="padding: 15px"><%= link_to "New Employee", new_users_employee_path, class: "btn " %></th>
-    </tr>
+
+      <tr>
+        <th scope="row", class="table-secondary" style="padding: 15px"><%= link_to "New Employee", new_users_employee_path, class: "btn " %></th>
+      </tr>
+
     <% end %>
+
     <tr>
       <th scope="row", class="table-success" style="padding: 15px" ><%= link_to "All employees",  users_employees_path, class: "btn"%></th>
     </tr>
+
     <tr>
       <th scope="row", class="table-danger" style="padding: 15px"><%= link_to "Leaves", leaves_path, class: "btn" %></th>     
     </tr>
-     <tr>
+
+    <tr>
      <th scope="row", class="table-warning" style="padding: 15px"><%= link_to "Attendance", attendances_path, class: "btn "%> </th>   
     </tr>
-     <tr>
+
+    <tr>
       <th scope="row", class="table-info" style="padding: 15px"><%= link_to "Salary", salaries_path, class: "btn "%></th>     
     </tr>
-     <tr>
+
+    <tr>
       <th scope="row", class="table-danger" style="padding: 15px"><%= link_to "Tax Deductions", tax_deductions_path, class: "btn "%></th>     
     </tr>
-     <tr>
+
+    <tr>
       <th scope="row", class="table-success" style="padding: 15px"><%= link_to "Payslip", payslips_path, class: "btn" %></th>     
     </tr>
 
   </tbody>
+  
 </table>
 

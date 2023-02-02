@@ -1,7 +1,6 @@
 class PayslipsController < ApplicationController
   
-  before_action :fetch_payslip, only: %i[show edit update destroy]
-  
+  before_action :fetch_payslip, only: %i[show edit update destroy]  
 
   def index
     if authorised_admin?
@@ -15,23 +14,27 @@ class PayslipsController < ApplicationController
   end
 
   def show
-    @payslip = Payslip.find(params[:id])
-    # if authorised_admin? || authorised_employee?
-    #   @payslip = Payslip.find(params[:id])
-    # else
-    #   flash[:alert] =  I18n.t("unauthorised") 
-    #   redirect_to root_path
-    # end
-    respond_to do |format|
-      format.html
-      format.pdf do
-        render pdf: "file_name", template: "payslips/payslip", formats: [:html], layout: 'pdf'
-      end
+    if authorised_admin? || authorised_employee?
+      @payslip = Payslip.find(params[:id])       
+      respond_to do |format|
+        format.html
+        format.pdf do
+          render pdf: "file_name", template: "payslips/payslip", formats: [:html], layout: 'pdf'
+        end
+      end  
+    else
+      flash[:alert] =  I18n.t("unauthorised") 
+      redirect_to root_path
     end  
   end
 
   def new
-    @payslip = Payslip.new
+    if authorised_admin?
+      @payslip = Payslip.new
+    else
+      flash[:alert] =  I18n.t("unauthorised") 
+      redirect_to root_path
+    end
   end
 
   def create

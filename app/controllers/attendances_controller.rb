@@ -43,7 +43,7 @@ class AttendancesController < ApplicationController
   def update
     if @attendance.update(attendance_params) 
       flash[:notice] = I18n.t("successful")
-        redirect_to '/attendances'
+      redirect_to '/attendances'
     else
       flash[:alert] =  I18n.t("unauthorised")
       redirect_to '/attendances'
@@ -62,6 +62,7 @@ class AttendancesController < ApplicationController
 
 
   protected
+
   def fetch_attendance
     @attendance = Attendance.find(params[:id]) 
   end
@@ -75,8 +76,6 @@ class AttendancesController < ApplicationController
     end  
     @total_leaves  
   end
-
-
 
   def skip_weekends(leave)    
     date = leave.from_date

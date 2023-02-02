@@ -23,7 +23,7 @@ class LeavesController < ApplicationController
   end
 
   def new
-    if !authorised_admin? && authorised_employee
+    if !authorised_admin? && authorised_employee?
       @leave = Leave.new
     else
       flash[:alert] =  I18n.t("unauthorised") 
@@ -75,8 +75,7 @@ class LeavesController < ApplicationController
   end
 
   protected
-
-
+  
   def paid?
     @leave = fetch_leave
     leave_count = Employee.find(@leave.employee_id).paid_leaves

@@ -7,3 +7,4 @@ class Attendance < ApplicationRecord
 
 end
 
+    

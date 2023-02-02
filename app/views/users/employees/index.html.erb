@@ -1,17 +1,24 @@
 <div class="col-8" style="margin : 0 auto; padding: 10px">
   <h2>Employees data</h2></br>
 </div>
+
 <table class="table table-striped">
+
   <thead class="thead-light">
+
     <tr>
       <td>ID</td>
       <td>First_Name</td>
       <td>date_of_joining</td>
       <td>Email</td>
     </tr>
+
   </thead>
+
   <tbody>
+
     <% @employees.each do |employee| %>
+
       <tr>
         <td><%= employee.id%></td>
         <td><%= link_to "#{employee.first_name}", users_employee_path(employee) %></td>
@@ -19,9 +26,13 @@
         <td><%= employee.email%></td>
        
       </tr>
+
    <% end %>
+
   </tbody>
+
 </table>
+
 <div class="col-2" style="margin : 0 auto; padding: 10px">
-<%= link_to 'Add new', new_users_employee_path, class: "btn btn-success" %>
+  <%= link_to 'Add new', new_users_employee_path, class: "btn btn-success" %>
 </div>

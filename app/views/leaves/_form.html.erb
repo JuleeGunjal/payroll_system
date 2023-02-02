@@ -1,36 +1,42 @@
-
 <%= form_for(@leave, url: leaves_path) do |form| %>
+
   <table>
+
     <tr>
       <div>
         <td><%= form.label :status, "Status: " %></td>
         <td><%= form.text_field :status, value: 'Pending' %></td>
       </div>
     </tr>
+
      <tr>
       <div>
         <td><%= form.label :from_date, "From date: " %></td>
         <td><%= form.date_field :from_date %></td>
       </div>
     </tr>
+
     <tr>
       <div>
         <td> <%= form.label :to_date, 'To date: '%></td>
         <td><%= form.date_field :to_date %></td>
       </div>
     </tr>
+
     <tr>
       <div>
         <td><%= form.label :reason, 'Reason: '%></td>
         <td><%= form.text_field :reason %></td>
       </div>
     </tr>
+
     <tr>
       <div>
         <td><%= form.label :employee_id,"Employee Id: " %></td>
         <td><%= form.number_field :employee_id, value: current_user.id %></td>
       </div>
     </tr>
+    
     <tr>
       <div>
         <td><%= form.label :leave_type, 'leave type: ' %></td>

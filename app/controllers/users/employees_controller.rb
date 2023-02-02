@@ -8,6 +8,7 @@ class Users::EmployeesController < ApplicationController
       redirect_to root_path
     end 
   end
+  
   def show
     if authorised_admin? 
       @employee = Employee.find(params[:id])
@@ -28,7 +29,7 @@ class Users::EmployeesController < ApplicationController
 
   def create        
     @employee = Employee.create(employee_params)
-    if @employee.save        
+    if @employee.save     
       flash[:notice] = "Sucessfully, saved the employee details"
       redirect_to '/users/employees'
     else
@@ -44,7 +45,7 @@ class Users::EmployeesController < ApplicationController
   def update
     @employee = Employee.find(params[:id])    
     if authorised_admin? && @employee.update(employee_params)
-      redirect_to root_path
+      redirect_to '/users/employees'
     else
       flash[:alert] = "Unauthorized User" 
       redirect_to "/users/sign_in"

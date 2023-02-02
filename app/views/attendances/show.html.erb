@@ -1,32 +1,43 @@
 <div class="col-8" style="margin : 0 auto;">  
   <table class="table table-striped">
+
     <thead style="color: blue">
       <th><%= get_name(@attendance) %>'s  attendance Details</th>
     </thead>
+
     <tbody>
+
       <tr>
         <th scope="row"> Employee ID</th>
         <td><%= @attendance.employee.id %></td>      
       </tr>
+
       <tr>
         <th scope="row">Employee's  Name</th>
         <td><%= get_name(@attendance) %></td>
       </tr>
+
       <tr>
         <th scope="row">Month</th>
         <td ><%= @attendance.month %></td>     
       </tr>
+
       <tr>
         <th scope="row">Working days </th>
         <td ><%= @attendance.working_days %></td>     
       </tr>
+
       <tr>
         <th scope="row">Unpaid leaves</th>
         <td ><%= @attendance.unpaid_leaves %></td>     
-      </tr>       
+      </tr>
+
     </tbody>
-  </table> 
+
+  </table>
+
   </br></br>
+  
   <div class="d-flex justify-content-center">  
     <div class="col-2">
       <%= link_to "Edit", edit_attendance_path(@attendance), class: "btn btn-warning"%> 
