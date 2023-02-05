@@ -54,12 +54,12 @@ class SalariesController < ApplicationController
   end
 
   def update
-    if @salary.update(salary_params) 
+    if authorised_admin? && @salary.update(salary_params) 
       flash[:notice] = I18n.t("successful")
       redirect_to salaries_path
     else
       flash[:alert] =  I18n.t("unauthorised")
-      redirect_to salaries_path
+      redirect_to root_path
     end
   end
 

@@ -54,7 +54,7 @@ module PayslipsHelper
   end
   
   def leave_cut
-    (get_salary.to_i / find_working_days.to_i) * unpaid_leaves.to_i
+    (get_salary.to_i / find_working_days.to_i) * get_unpaid_leaves.to_i
   end
 
   def tax_deductions

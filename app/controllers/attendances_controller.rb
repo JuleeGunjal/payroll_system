@@ -53,10 +53,10 @@ class AttendancesController < ApplicationController
   def destroy   
     if @attendance.destroy && authorised_admin?
       flash[:notice] = I18n.t("destroyed")
-      redirect_to '/attendances/'
+      redirect_to '/attendances'
     else
       flash[:alert] =  I18n.t("unauthorised")
-      render '/attendances/'
+      redirect_to '/attendances'
     end
   end
 

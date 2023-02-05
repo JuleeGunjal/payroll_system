@@ -13,7 +13,6 @@ RSpec.describe Users::SessionsController, type: :controller do
       }
     end
     it "should sign in with valid credintials" do
-      binding.pry
       expect(response.status).to eq(302) 
     end
   end

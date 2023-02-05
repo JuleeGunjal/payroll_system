@@ -11,7 +11,6 @@ RSpec.describe Employee, type: :model do
     context 'credentials' do
       
       it 'should contain email with specified pattern' do
-        binding.pry
         expect(@dummy.email).to match(EMAIL_REGEX)
       end
 

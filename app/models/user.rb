@@ -5,7 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
          validates :email, presence: { message: I18n.t("blank") }, uniqueness: { message: I18n.t("unique") }, format: { with: EMAIL_REGEX, message: I18n.t("invalid")}
-         validates :password, confirmation: true, length: { in: 6..20 }
+         validates :password, confirmation: true
 
   def admin?
     type == 'Admin'

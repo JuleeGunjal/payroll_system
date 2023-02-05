@@ -63,14 +63,14 @@ class LeavesController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy 
     @leave = Leave.find(params[:id]) 
     if @leave.destroy && authorised_admin? || authorised_employee?
       flash[:notice] = I18n.t("destroyed") 
-      redirect_to '/leaves/'
+      redirect_to '/leaves'
     else
       flash[:alert] =  I18n.t("unauthorised")
-      render '/leaves/'
+      redirect_to  leafe_path(@leave)
     end
   end
 
