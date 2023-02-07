@@ -18,7 +18,7 @@
     <% @attendances.each do |attendance| %>
 
       <tr>
-        <td><%= link_to "#{attendance.id}", attendance_path(attendance)%></td>
+        <td><%= link_to "#{attendance.id}", attendance_path(attendance), class:'btn btn-outline-primary', style:'width:40px'%></td>
         <td><%= attendance.employee_id %></td>
         <td><%= attendance.month%></td> 
         <td><%= attendance.working_days%></td>      

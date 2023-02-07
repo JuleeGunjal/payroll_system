@@ -32,8 +32,7 @@ class TaxDeductionsController < ApplicationController
     end
   end
 
-  def create
-    binding.pry
+  def create   
     @tax_deduction = TaxDeduction.new(tax_deduction_params)    
     if authorised_employee? &&  @tax_deduction.save
       flash[:notice] = I18n.t("successful")

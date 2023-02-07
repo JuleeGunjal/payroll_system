@@ -14,7 +14,7 @@ class Employee < User
   has_many :tax_deductions, class_name: "Tax_deduction"
   has_many :payslips, dependent: :destroy, class_name: "Payslip"
    
-  after_save :send_welcome_mail
+  after_create :send_welcome_mail
 
   def send_welcome_mail
     EmployeeMailer.with(employee: self).welcome_email.deliver_now

@@ -45,7 +45,7 @@ class Users::EmployeesController < ApplicationController
   def update
     @employee = Employee.find(params[:id])    
     if authorised_admin? && @employee.update(employee_update_params)
-      redirect_to root_path
+      redirect_to users_employees_path
     else
       flash[:alert] = "Unauthorized User" 
       redirect_to root_path

@@ -19,7 +19,7 @@
 
     <% @salaries.each do |salary| %>
       <tr>
-        <td><%= link_to "#{salary.id}", salary_path(salary)%></td>
+        <td><%= link_to "#{salary.id}", salary_path(salary), class:'btn btn-outline-primary', style:'width:40px'%></td>
         <td><%= salary.employee_id %></td>
         <td><%= salary.date%></td> 
         <td><%= salary.total_salary%></td>        

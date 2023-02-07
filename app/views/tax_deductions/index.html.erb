@@ -21,7 +21,7 @@
     <% @tax_deductions.each do |tax_deduction| %>
 
       <tr>
-        <td><%= link_to "#{tax_deduction.id}", tax_deduction_path(tax_deduction)%></td>
+        <td><%= link_to "#{tax_deduction.id}", tax_deduction_path(tax_deduction),class:'btn btn-outline-primary', style:'width:40px'%></td>
         <td><%= tax_deduction.employee_id%></td>
         <td><%= tax_deduction.tax_type%></td> 
         <td><%= tax_deduction.ammount%></td>

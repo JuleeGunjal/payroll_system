@@ -2,17 +2,8 @@ class PayslipsController < ApplicationController
   
   before_action :fetch_payslip, only: %i[show edit update destroy]  
 
-  def index 
-    date = params[:date]
-    @payslips = Payslip.where(date: date) 
-    # if authorised_admin?
-    #   @payslips = Payslip.all.order(:date)
-    # elsif authorised_employee?
-    #   @payslips = Payslip.where(employee_id: current_user.id).order(:date)
-    # else
-    #   flash[:alert] =  I18n.t("unauthorised") 
-    #   redirect_to root_path
-    # end    
+  def index     
+    @payslips = Payslip.search(params[:search])      
   end
 
   def show
@@ -142,7 +133,7 @@ class PayslipsController < ApplicationController
   end  
 
   def payslip_params
-    params.require(:payslip).permit(:date, :employee_id)
+    params.require(:payslip).permit(:date, :employee_id, :search)
   end
 
 end

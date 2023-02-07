@@ -103,46 +103,48 @@ RSpec.describe TaxDeductionsController, type: :controller do
     end
   end
 
-  # context 'Post create' do    
-  #   before do 
-  #     @user = create(:user, type: 'Admin')
-  #     sign_in(@user)       
-  #   end
-  #   it 'should create Salary by Admin' do 
-  #     salaries_count = Salary.all.count       
-  #     post :create, params: {
-  #       salary: {
-  #         total_salary: rand(99999),
-  #         employee_id: Employee.all.ids[rand(9)],
-  #         date: DateTime.now
-  #       }
-  #     }
-  #     expect(Salary.all.count).to eq(salaries_count + 1)
-  #   end
+  context 'Post create' do    
+    before do 
+      @user = create(:employee)
+      sign_in(@user)       
+    end
+    it 'should create Tax deduction by Employee' do 
+      tax_deductions_count = TaxDeduction.all.count       
+      arr = ['NPS', 'Non-NPS']   
+      post :create, params: {
+        tax_deduction: {          
+          tax_type:  arr.sample,
+          ammount: 70000,
+          employee_id: @user.id,
+          financial_year: Date.today.year
+        } 
+      }
+      expect(TaxDeduction.all.count).to eq(tax_deductions_count + 1)
+    end
+
+    it 'should not  create tax deduction by employee as all attributes not provided' do 
+      tax_deductions_count = TaxDeduction.all.count       
+      arr = ['NPS', 'Non-NPS']        
+      post :create, params: {
+        tax_deduction: {          
+          tax_type:  arr.sample,          
+          financial_year: Date.today.year
+        } 
+      }
+      expect(TaxDeduction.all.count).to eq(tax_deductions_count)
+    end
   
-
-  #   it 'should not  create salary by Admin as all attributes not provided' do 
-  #     salaries_count = Salary.all.count        
-  #     post :create, params: {
-  #       salary: {          
-  #         employee_id: Employee.all.ids[rand(9)],
-  #         date: DateTime.now
-  #       } 
-  #     }
-  #     expect(Salary.all.count).to eq(salaries_count)
-  #   end
-
-  #   it 'should not  create salary for unauthorised user' do 
-  #     salaries_count = Salary.all.count 
-  #     sign_out(@user)
-  #     post :create, params: {
-  #       salary: {
-  #         total_salary: rand(99999),
-  #         employee_id: Employee.all.ids[rand(9)],
-  #         date: DateTime.now
-  #       }
-  #     }
-  #     expect(Salary.all.count).to eq(salaries_count)
-  #   end
-  # end
+    it 'should not  create tax deduction for unauthorised user' do 
+      tax_deductions_count = TaxDeduction.all.count       
+      arr = ['NPS', 'Non-NPS'] 
+      sign_out(@user)
+      post :create, params: {
+        tax_deduction: {          
+          tax_type:  arr.sample,          
+          financial_year: Date.today.year
+        } 
+      }
+      expect(TaxDeduction.all.count).to eq(tax_deductions_count)
+    end
+  end
 end
