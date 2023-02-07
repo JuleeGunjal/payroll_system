@@ -1,0 +1,48 @@
+<div class="col-8" style="margin : 0 auto; padding: 10px">
+  <h2 style="text-align: center;">Payslips</h2></br>
+</div>
+<%= form_tag payslips_path, :method => 'get' do %>
+  <%= date_field_tag :search ,params[:search] %>
+  <%= submit_tag('search',:date => nil) %>
+<% end %>
+</br>
+<table class="table table-striped">
+
+  <thead class="thead-light">
+
+    <tr>
+      <th>ID</th>
+      <th>Employee ID</th>
+      <th>Date</th>
+      <th>Taxable Income</th>
+      <th>Payable salary</th>      
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    <% @payslips.each do |payslip| %>
+
+      <tr>
+        <td><%= link_to "#{payslip.id}", payslip_path(payslip),class: 'btn btn-outline-primary', style:"width:40px"%></td>
+        <td><%= payslip.employee_id %></td>
+        <td><%= payslip.date%></td> 
+        <td><%= payslip.taxable_income%></td>
+        <td><%= payslip.payable_salary%></td>
+        <td>               
+        <%= link_to 'PDF', payslip_path(payslip, format: :pdf),class:'btn btn-outline-success'%>     
+        </td> 
+      </tr>
+
+    <% end %>
+
+  </tbody>
+
+</table>
+
+<% if current_user.type == 'Admin' %>
+  <div class="col-2" style="margin : 0 auto; padding: 10px">
+    <%= link_to 'Add new', new_payslip_path, class: "btn btn-success" %>
+  </div>
+<% end %>

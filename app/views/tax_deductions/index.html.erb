@@ -1,0 +1,41 @@
+<div class="col-8" style="margin : 0 auto; padding: 10px">
+  <h2>Employees Tax deductions</h2></br>
+</div>
+
+<table class="table table-striped">
+
+  <thead class="thead-light">
+
+    <tr>
+      <th>ID</th>
+      <th>Employee Id</th>
+      <th>Tax type</th>
+      <th>Total Ammount</th>
+      <th>Financial Year</th>
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    <% @tax_deductions.each do |tax_deduction| %>
+
+      <tr>
+        <td><%= link_to "#{tax_deduction.id}", tax_deduction_path(tax_deduction),class:'btn btn-outline-primary', style:'width:40px'%></td>
+        <td><%= tax_deduction.employee_id%></td>
+        <td><%= tax_deduction.tax_type%></td> 
+        <td><%= tax_deduction.ammount%></td>
+        <td><%= tax_deduction.financial_year%></td>        
+      </tr>
+
+   <% end %>
+
+  </tbody>
+
+</table>
+
+<% if current_user.type == 'Employee' %>
+  <div class="col-2" style="margin : 0 auto; padding: 10px">
+    <%= link_to 'Add new', new_tax_deduction_path, class: "btn btn-success" %>
+  </div>
+<% end %>

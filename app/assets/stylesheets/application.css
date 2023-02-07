@@ -10,6 +10,34 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+ 
  *= require_self
  */
+/* Split the screen in half */
+@import "bootstrap-sprockets";
+@import "bootstrap";
+.split {  
+  position: fixed;
+  z-index: 1;  
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {  
+  left: 0;
+  width: 20%;
+}
+
+/* Control the right side */
+.right { 
+  right: 0;
+  width: 80%;
+}
+th, td {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 40px;
+}
+

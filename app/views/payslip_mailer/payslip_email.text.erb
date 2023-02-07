@@ -1,0 +1,15 @@
+
+Welcome to Payroll System, <%= @payslip.employee.first_name %>
+===============================================
+
+
+PaySlip for the month of <%=Date::MONTHNAMES[@payslip.date.month]%>are available on Payroll System Application
+Please login to Payroll System -> Payslip -> PDF
+OR you will get it by 
+<%= link_to 'click here', payslip_url(@payslip, format: :pdf)%>
+
+To login to the site, just follow this link: <%= @url %>
+
+Have greate experience of Payroll System!
+
+

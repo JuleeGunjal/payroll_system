@@ -1,29 +1,35 @@
 class Users::EmployeesController < ApplicationController
   
   def index
-    @employees = Employee.all
+    if authorised_admin? 
+      @employees = Employee.all
+    else
+      flash[:alert] = "Unauthorized User" 
+      redirect_to root_path
+    end 
   end
+  
   def show
     if authorised_admin? 
       @employee = Employee.find(params[:id])
     else
       flash[:alert] = "Unauthorized User" 
-      render 'home/index'
+      redirect_to root_path
     end
   end
-  def new
-    binding.pry
+
+  def new   
     if authorised_admin?
       @employee = Employee.new
     else
       flash[:alert] = "Unauthorized User" 
-      render 'home/index'
+      redirect_to root_path
     end
   end
 
   def create        
     @employee = Employee.create(employee_params)
-    if @employee.save        
+    if @employee.save     
       flash[:notice] = "Sucessfully, saved the employee details"
       redirect_to '/users/employees'
     else
@@ -33,18 +39,16 @@ class Users::EmployeesController < ApplicationController
   end
 
   def edit
-    binding.pry
     @employee = Employee.find(params[:id])
   end
 
   def update
-    binding.pry
     @employee = Employee.find(params[:id])    
-    if authorised_admin? && @employee.update(employee_params)
-      render 'home/index'
+    if authorised_admin? && @employee.update(employee_update_params)
+      redirect_to users_employees_path
     else
       flash[:alert] = "Unauthorized User" 
-      redirect_to "/users/sign_in"
+      redirect_to root_path
     end
   end
 
@@ -55,18 +59,18 @@ class Users::EmployeesController < ApplicationController
       redirect_to '/users/employees'
     else
       flash[:alert] = "Unauthorized User" 
-      render '/users/employees'
+      redirect_to root_path
     end
   end
 
   protected
 
-
-
-
   def employee_params
     params.require(:employee).permit(:email, :password, :type, :first_name, :last_name, :gender, :date_of_joining, :mobile_number, :address)
   end
  
+  def employee_update_params
+    params.require(:employee).permit(:email, :first_name, :last_name, :gender, :date_of_joining, :mobile_number, :address)
+  end
 
 end

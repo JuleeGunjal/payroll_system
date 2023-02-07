@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  month: 1
+  working_days: 1
+  unpaid_leaves: MyString
+  references: MyString
+  employee: MyString
+
+two:
+  month: 1
+  working_days: 1
+  unpaid_leaves: MyString
+  references: MyString
+  employee: MyString

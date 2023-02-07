@@ -1,0 +1,35 @@
+<div class="col-6" style="margin : 0 auto; padding: 10px">
+  <h1>Attendance data</h1></br>
+</div>
+
+<table class="table table-striped">
+
+  <thead class="thead-light">
+    <tr>
+      <th>ID</th>
+      <th>Employee ID</th>
+      <th>Month</th>
+      <th>Working Days</th>     
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% @attendances.each do |attendance| %>
+
+      <tr>
+        <td><%= link_to "#{attendance.id}", attendance_path(attendance), class:'btn btn-outline-primary', style:'width:40px'%></td>
+        <td><%= attendance.employee_id %></td>
+        <td><%= attendance.month%></td> 
+        <td><%= attendance.working_days%></td>      
+      </tr>
+
+    <% end %>
+
+  </tbody>
+
+</table>
+
+<div class="col-2" style="margin : 0 auto; padding: 10px">
+  <%= link_to 'Add new', new_attendance_path, class: "btn btn-success" %>
+</div>

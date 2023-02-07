@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+
+  <body>
+
+    <h1>Welcome to Payroll System, <%= @payslip.employee.first_name %></h1>
+
+    <p>
+      PaySlip for the month of <%=Date::MONTHNAMES[@payslip.date.month]%>are available on Payroll System Application<br>
+      Please login to Payroll System -> Payslip -> PDF<br>
+      OR you will get it by 
+      <%= link_to 'click here', payslip_url(@payslip, format: :pdf)%><br>
+    </p>
+
+    <p>
+      To login to the site, just follow this link: <%= @url %>
+    </p>     
+
+    <p>Have greate experience of Payroll System!</p>
+
+  </body>
+
+</html>

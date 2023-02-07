@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+
+  <body>
+
+    <h1>Welcome to Payroll System, <%= @employee.first_name %></h1>
+
+    <p>
+      You have been registered in Payroll System With <br>      
+      your username is: <%= @employee.email %><br>
+      your password is: <%= @employee.password %><br>
+    </p>
+
+    <p>
+      To login to the site, just follow this link: <%= link_to 'click here', @url %><br>
+    </p>
+
+    <p>
+       Change the password, <%= link_to 'click here', @passwordurl %><br> 
+    </p>
+
+    <p>Welcome and have greate experience of Payroll System!</p>
+
+  </body>
+  
+</html>

@@ -1,0 +1,49 @@
+<div class="col-8" style="margin : 0 auto;">  
+  <table class="table table-striped">
+
+    <thead style="color: blue">
+      <th><%= @attendance.employee.first_name %>'s  attendance Details</th>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <th scope="row"> Employee ID</th>
+        <td><%= @attendance.employee.id %></td>      
+      </tr>
+
+      <tr>
+        <th scope="row">Employee's  Name</th>
+        <td><%= @attendance.employee.first_name  %></td>
+      </tr>
+
+      <tr>
+        <th scope="row">Month</th>
+        <td ><%= @attendance.month %></td>     
+      </tr>
+
+      <tr>
+        <th scope="row">Working days </th>
+        <td ><%= @attendance.working_days %></td>     
+      </tr>
+
+      <tr>
+        <th scope="row">Unpaid leaves</th>
+        <td ><%= @attendance.unpaid_leaves %></td>     
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  </br></br>
+  
+  <div class="d-flex justify-content-center">  
+    <div class="col-2">
+      <%= link_to "Edit", edit_attendance_path(@attendance), class: "btn btn-warning"%> 
+    </div>
+    <div class="col-3">
+      <%= button_to "Destroy", attendance_path(@attendance), class: "btn btn-danger", data: {:confirm => 'Are you sure?'}, method: :delete %>
+    </div>
+  </div> 
+</div> 

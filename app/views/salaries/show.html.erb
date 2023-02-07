@@ -1,0 +1,48 @@
+<div class="col-8" style="margin : 0 auto;">
+
+  <table class="table table-striped">
+
+    <thead style="color: blue">    
+      <th><%= @salary.employee.first_name%>'s  Salary Details</th>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <th scope="row">ID</th>
+        <td><%= @salary.employee.id %></td>      
+      </tr>
+
+      <tr>
+        <th scope="row">Employee's  Name</th>
+        <td><%= @salary.employee.first_name%></td>
+      </tr>
+
+      <tr>
+        <th scope="row">Month</th>
+        <td ><%= Date::MONTHNAMES[@salary.date.month] %></td>     
+      </tr>
+
+      <tr>
+        <th scope="row">Total salary</th>
+        <td ><%= @salary.total_salary %></td>     
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  </br></br>
+
+  <div class="d-flex justify-content-center">
+
+    <div class="col-2">
+      <%= link_to "Edit", edit_salary_path(@salary), class: "btn btn-warning"%> 
+    </div>
+
+    <div class="col-3">
+      <%= button_to "Destroy", salary_path(@salary), class: "btn btn-danger", data: {:confirm => 'Are you sure?'}, method: :delete %>
+    </div>
+
+  </div> 
+</div>

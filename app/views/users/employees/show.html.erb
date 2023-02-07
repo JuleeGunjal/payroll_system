@@ -1,18 +1,64 @@
-<div class="col-6" style="margin : 0 auto;">
-  <h2><%= @employee.email %>'s details</h2>
-  <h4>Employee Name: <%= @employee.first_name %></h4>
-  <h4>ID: <%= @employee.id %></h4>
-  <h4>email: <%= @employee.email %></h4>
-  <h4>mobile number: <%= @employee.mobile_number %></h4>
-  <h4>Gender: <%= @employee.gender %></h4>
-  <h4>Address: <%= @employee.address %></h4>  
+<div class="col-8" style="margin : 0 auto;">
+
+  <table class="table table-striped">
+
+    <thead style="color: blue">
+      <th><%= @employee.first_name %>'s Details</th>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <th scope="row">ID</th>
+        <td><%= @employee.id %></td>      
+      </tr>
+
+      <tr>
+        <th scope="row">First Name</th>
+        <td><%= @employee.first_name %></td>
+      </tr>
+
+      <tr>
+        <th scope="row">Last name</th>
+        <td ><%= @employee.last_name %></td>     
+      </tr>
+
+      <tr>
+        <th scope="row">Email</th>
+        <td ><%= @employee.email %></td>     
+      </tr>
+
+      <tr>
+        <th scope="row">Gender</th>
+        <td ><%= @employee.gender %></td>     
+      </tr>
+
+      <tr>
+        <th scope="row">Address</th>
+        <td ><%= @employee.address %></td>     
+      </tr>
+
+      <tr>
+        <th scope="row">Mobile Number</th>
+        <td ><%= @employee.mobile_number %></td>     
+      </tr>
+
+    </tbody>
+
+  </table>
+
   </br></br>
-  <div class="d-flex justify-content-center">  
-    <div class="col-2">
+
+  <div class="d-flex justify-content-center"> 
+
+    <div class="col-4">
       <%= link_to "Edit", edit_users_employee_path(@employee), class: "btn btn-warning"%> 
     </div>
-    <div class="col-3">
+
+    <div class="col-6">
       <%= button_to "Destroy", users_employee_path(@employee), class: "btn btn-danger", data: {:confirm => 'Are you sure?'}, method: :delete%>
     </div>
+
   </div>
+  
 </div>

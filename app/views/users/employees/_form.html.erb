@@ -1,71 +1,92 @@
-<%= binding.pry%>
 <%= form_for(@employee, url: users_employees_path) do |form| %>
+
   <table>
+
     <tr>
       <div>
         <td><%= form.label :first_name, "First Name: " %></td>
         <td><%= form.text_field :first_name %></td>
       </div>
     </tr>
+
      <tr>
       <div>
         <td><%= form.label :last_name, "Last Name: " %></td>
         <td><%= form.text_field :last_name %></td>
       </div>
     </tr>
-    <tr>
-      <div>
-        <td> <%= form.label :password, 'Password: '%></td>
-        <td><%= form.password_field :password %></td>
-      </div>
-    </tr>
-    <tr>
-      <div>
-        <td><%= form.label :password, 'Confirm -Password: '%></td>
-        <td><%= form.password_field :password_confirmation %></td>
-      </div>
-    </tr>
+      
     <tr>
       <div>
         <td><%= form.label :email,"Email: " %></td>
         <td><%= form.text_field :email %></td>
       </div>
     </tr>
+
     <tr>
       <div>
+        <td> <%= form.label :password, 'Password: '%></td>
+        <td><%= form.password_field :password %></td>
+      </div>
+    </tr>
+
+    <tr>
+      <div>
+        <td><%= form.label :password, 'Confirm -Password: '%></td>
+        <td><%= form.password_field :password_confirmation %></td>
+      </div>
+    </tr>
+
+    <tr>
+      <div>
+      <td><%= form.label :grnder, 'Gender: '%></td>
         <td><%= form.radio_button :gender, "Female" %>
-          <%= form.label :Female, "Female" %></td>
-        <td><%= form.radio_button :gender, "Male" %>
+          <%= form.label :Female, "Female" %>&nbsp&nbsp&nbsp&nbsp&nbsp
+        <%= form.radio_button :gender, "Male" %>
           <%= form.label :Male, "Male" %></td>
       </div>
     </tr>
+
     <tr>
       <div>
         <td><%= form.label :date_of_joining, "Date of joining: " %></td>
         <td><%= form.date_field :date_of_joining, as: :date, value: form.object.try(:strftime,"%m/%d/%Y")%></td>
       </div>
     </tr>
+
     <tr>
       <div>
         <td><%= form.label :mobile_number, 'Mobile number: ' %></td>
         <td> <%= form.text_field :mobile_number %></td>
       </div>
     </tr>
-     <tr>
+
+    <tr>
       <div>
         <td><%= form.label :address, 'Address: ' %></td>
         <td> <%= form.text_field :address %></td>
       </div>
     </tr>
+
     <tr>
       <div>
         <td><%= form.label :type,'Role: ' %></td>
         <td><%= form.text_field :type %></td>
       </div>
     </tr>
-  </table></br>
 
-  <div class="col-3", style="margin: 0 auto;">
+    <tr>
+      <div>
+        <td><%= form.label :paid_leaves, 'Paid Leaves: ' %></td>
+        <td> <%= form.number_field :paid_leaves %></td>
+      </div>
+    </tr>
+
+  </table>
+  
+  </br></br>
+
+  <div class="col-6", style="margin: 0 auto;">
     <%= form.submit class: "btn btn-warning"%>
   </div>
 <% end %>

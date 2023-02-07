@@ -36,3 +36,6 @@ en:
   wrong_length: "should be of specified length"
   unique: "should be unique"
   blank: "should not be blank"
+  unauthorised: "Unauthorised User"
+  successful: "Successfully saved the details"
+  destroyed: "Successfully destroyed "

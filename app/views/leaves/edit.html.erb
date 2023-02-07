@@ -1,50 +1,66 @@
-<div class="col-6" style="margin : 0 auto;">
-  <h1>Updating Employee's leave status Updates</h1></br>
+<div class="col-10" style="margin : 0 auto;">
 
-<%= form_for(@leave, url: leafe_path) do |form| %>
-  <table>
-  <% if current_user.type == 'Admin' %>
-   <tr>
-      <div>
-        <td><%= form.radio_button :status, "Approved" %>
-          <%= form.label :Approved, "Approved"%></td>
-        <td><%= form.radio_button :status, "Cancelled" %>
-          <%= form.label :Cancelled, "Cancelled" %></td>
-      </div>
-    </tr>
-      <tr>
-      <div>
-        <td><%= form.radio_button :leave_type, "Paid" %>
-          <%= form.label :Paid, "Paid" %></td>
-        <td><%= form.radio_button :leave_type, "Unpaid" %>
-          <%= form.label :Unpaid, "Unpaid" %></td>
-      </div>
-    </tr>
-    <% elsif current_user.type == 'Employee' %>
-    <tr>
-        <div>
-        <td><%= form.label :from_date, "From date: " %></td>
-        <td><%= form.date_field :from_date %></td>
-      </div>
-    </tr>
-    <tr>
-      <div>
-        <td> <%= form.label :to_date, 'To date: '%></td>
-        <td><%= form.date_field :to_date %></td>
-      </div>
-    </tr>
-    <tr>
-      <div>
-        <td><%= form.label :reason, 'Reason: '%></td>
-        <td><%= form.text_field :reason %></td>
-      </div>
-    </tr>
-  <% end %>
-    
-  </table></br>
-
-  <div class="col-3", style="margin: 0 auto;">
-    <%= form.submit class: "btn btn-warning"%>
+  <div class="col-6" style="margin : 0 auto;">
+    <h2>Leave update</h2></br>
   </div>
-<% end %>
+
+  <%= form_for(@leave, url: leafe_path) do |form| %>
+
+    <table class="table table-striped">
+
+      <% if current_user.type == 'Admin' %>
+
+        <tr>
+          <div>
+            <td> <%= form.label :status, 'Status: '%></td>
+            <td><%= form.radio_button :status, "Approved" %>
+              <%= form.label :Approved, "Approved"%></td>
+            <td> <%= form.radio_button :status, "Cancelled" %>
+              <%= form.label :Cancelled, "Cancelled" %></td>
+          </div>
+        </tr>
+
+        <tr>
+          <div>
+            <td> <%= form.label :leave_type, 'Leave type: '%></td>
+            <td><%= form.radio_button :leave_type, "Paid" %>
+              <%= form.label :Paid, "Paid" %></td>
+            <td><%= form.radio_button :leave_type, "Unpaid" %>
+              <%= form.label :Unpaid, "Unpaid" %></td>
+          </div>
+        </tr>
+
+      <% elsif current_user.type == 'Employee' %>
+
+        <tr>
+          <div>
+            <td><%= form.label :from_date, "From date: " %></td>
+            <td><%= form.date_field :from_date %></td>
+          </div>
+        </tr>
+
+        <tr>
+          <div>
+            <td> <%= form.label :to_date, 'To date: '%></td>
+            <td><%= form.date_field :to_date %></td>
+          </div>
+        </tr>
+
+        <tr>
+          <div>
+            <td><%= form.label :reason, 'Reason: '%></td>
+            <td><%= form.text_field :reason %></td>
+          </div>
+        </tr>
+
+      <% end %>
+    
+    </table></br>
+
+    <div class="col-5", style="margin: 0 auto;">
+      <%= form.submit class: "btn btn-warning"%>
+    </div>
+
+  <% end %>
+
 </div>

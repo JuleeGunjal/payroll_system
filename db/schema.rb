@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_09_055315) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_18_071019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attendances", force: :cascade do |t|
+    t.integer "month"
+    t.integer "working_days"
+    t.string "unpaid_leaves"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_attendances_on_employee_id"
+  end
 
   create_table "leaves", force: :cascade do |t|
     t.string "status"
@@ -24,6 +34,35 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_055315) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_leaves_on_employee_id"
+  end
+
+  create_table "payslips", force: :cascade do |t|
+    t.integer "taxable_income"
+    t.integer "payable_salary"
+    t.date "date"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_payslips_on_employee_id"
+  end
+
+  create_table "salaries", force: :cascade do |t|
+    t.date "date"
+    t.integer "total_salary"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_salaries_on_employee_id"
+  end
+
+  create_table "tax_deductions", force: :cascade do |t|
+    t.string "tax_type"
+    t.integer "ammount"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "financial_year"
+    t.index ["employee_id"], name: "index_tax_deductions_on_employee_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_055315) do
     t.date "date_of_joining"
     t.text "address"
     t.string "type"
+    t.integer "paid_leaves", default: 4
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

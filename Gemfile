@@ -36,6 +36,20 @@ gem "redis", "~> 4.0"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
+# Use Bootstrap icons
+gem 'bootstrap-icons-helper'
+
+# Use to generate PDF
+gem 'wicked_pdf'
+
+# wicked_pdf is a wrapper for wkhtmltopdf, to generate pdf on local machine
+gem 'wkhtmltopdf-binary'
+
+gem 'bootstrap-sass'
+
+# Use to convert Interger in English words
+gem 'to_words', '~> 1.1'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
@@ -51,9 +65,18 @@ gem 'devise'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# Use to write test for rails
+gem 'rails-controller-testing'
+
+# Use to preview the email
+gem "letter_opener"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'rspec-rails'
+  gem "factory_bot_rails"
+  gem 'faker'
 end
 
 group :development do
@@ -72,5 +95,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'database_cleaner'
+  
 end
 gem 'pry'

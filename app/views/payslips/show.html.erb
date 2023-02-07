@@ -1,0 +1,188 @@
+<h2 style="text-align: center;">Payslip for  <%=Date::MONTHNAMES[@payslip.date.month]%> of <%=@payslip.date.year%></h2>
+</br>
+
+<%@employee =get_employee(@payslip.employee_id)%> 
+
+<div class="row">
+
+  <div  class="col-6" style="margin : 0 auto;">
+
+    <table  class="table table-borderless"> 
+
+      <tbody>
+
+        <tr>
+          <th scope="row">Employee Id: </th>
+            <td><%=@employee.id%></td>      
+        </tr>
+
+        <tr>
+          <th scope="row">Employee Name: </th>
+          <td><%=@employee.first_name%>  <%=@employee.last_name%></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Date of joining: </th>
+          <td ><%=@employee.date_of_joining%></td>      
+        </tr>
+              
+        <tr>
+          <th scope="row">Gender:  </th>
+          <td><%=@employee.gender%></td>      
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div  class="col-6" style="margin : 0 auto;">
+
+    <table  class="table table-borderless">
+
+      <tbody>
+
+        <tr>
+          <th scope="row">Unpaid leaves </th>
+          <td ><%=get_unpaid_leaves%></td>      
+        </tr>
+
+        <tr>
+          <th scope="row">Month days: </th>
+          <td> <%=find_working_days%></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Total Leaves: </th>
+          <td ><%= get_total_leaves(@payslip.employee_id, @payslip.date.month)%></td>      
+        </tr>
+
+        <tr>
+          <th scope="row">Payable days: </th>
+          <td ><%=find_working_days.to_i - get_unpaid_leaves.to_i%></td>      
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div  class="col-6" style="margin : 0 auto;">
+
+    <table  class="table table-bordered">
+
+      <thead>
+
+        <tr>
+          <th colspan="3", style="text-align: center;">Earnings</th>
+        </tr> 
+
+        <tr>      
+          <th scope="col">Description</th>
+          <th scope="col">Rate</th>
+          <th scope="col">Monthly</th>
+        </tr>
+
+      </thead> 
+
+      <tbody>
+
+        <tr>
+          <th scope="row">Salary </th>
+          <td><%=get_salary%></td> 
+          <td><%=get_salary%></td>       
+        </tr>
+
+        <tr>
+          <th scope="row">Package </th>
+          <td><%=get_salary.to_i * 12%></td> 
+          <td><%=get_salary.to_i * 12%></td>
+        </tr>
+
+        <tr>
+          <th scope="row">Month </th>
+          <td style="text-align: center;">-</td> 
+          <td ><%=Date::MONTHNAMES[@payslip.date.month]%></td>       
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div  class="col-6" style="margin : 0 auto;">
+
+    <table  class="table table-bordered">
+
+      <thead>
+
+        <tr>
+          <th colspan="2", style="text-align: center;">Deductions</th>
+        </tr> 
+
+        <tr>
+          <th scope="col">Description</th>
+          <th scope="col">Ammount</th>      
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <%tax_deductions.each do |deduction|%>
+
+          <tr>
+            <th scope="row"><%=deduction.tax_type%>  </th>
+            <td><%=deduction.ammount%></td>      
+          </tr>
+
+        <% end %>
+
+        <tr>
+          <th scope="row">Leave cut</th>      
+          <td ><%=leave_cut%></td>      
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div  class="col-10" style="margin : 0 auto;">
+
+    <table  class="table table-bordered">
+
+      <tbody>
+
+        <tr>
+          <th scope="row">Net Pay: &nbspRs.<%= @payslip.payable_salary %>&nbsp(&nbsp<%= @payslip.payable_salary.to_words.upcase%> &nbspONLY&nbsp)</th>
+        </tr>
+
+        <tr>
+          <th scope="row">Taxable Income for <%=@payslip.date.year%> : &nbsp RS.<%= @payslip.taxable_income %></th>
+        </tr>
+
+      </tbody>
+              
+    </table>
+            
+  </div>
+  
+</div>
+        
+  </br></br>
+  <%if current_user.type == "Admin"%>
+    <div class="d-flex justify-content-center">  
+      <div class="col-3">
+        <%= button_to "Destroy", payslip_path(@payslip), class: "btn btn-danger", data: {:confirm => 'Are you sure?'}, method: :delete %>
+      </div>
+    </div> 
+  <%end%>

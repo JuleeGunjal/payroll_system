@@ -1,0 +1,30 @@
+<div class="col-6" style="margin : 0 auto;">
+  <h2>Updating Attendance </h2></br>
+
+  <%= form_for(@attendance, url: attendance_path) do |form| %>
+    <table>
+      <% if current_user.type == 'Admin' %>
+
+        <tr>
+          <div>
+            <td><%= form.label :month, "Month: " %></td>
+            <td><%= form.select :month, options_for_select((1..12).map {|m| [Date::MONTHNAMES[m], format('%02d', m)]}), :required => true, :include_blank => "Select Month" %>  </td>
+          </div>
+        </tr>
+
+        <tr>
+          <div>
+            <td><%= form.label :unpaid_leaves, "Unpaid leaves: " %></td>
+            <td><%= form.number_field :unpaid_leaves, max: "30" %></td>
+          </div>
+        </tr> 
+  
+      <% end %>  
+
+    </table></br>
+
+    <div class="col-3", style="margin: 0 auto;">
+      <%= form.submit class: "btn btn-warning"%>
+    </div>
+  <% end %>
+</div>
