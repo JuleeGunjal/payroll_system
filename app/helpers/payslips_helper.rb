@@ -1,22 +1,50 @@
 module PayslipsHelper
 
-  def get_salary
-   employee = get_employee(@payslip.employee_id)
-   salary = Salary.find_by(employee_id: employee.id, date: @payslip.date.beginning_of_month)
-   salary.total_salary 
-  end
-
-  def get_name(payslip)
-    Employee.find(payslip.employee_id).first_name
+  def get_salary    
+    fetch_employee
+    if is_salary?   
+      @salary.total_salary 
+    else
+      flash[:alert] =  "Salary not added"
+    end
   end
 
   def get_employee(id)
     @employee = Employee.find(id)
   end
 
+  def is_salary?   
+    fetch_employee
+    @salary = Salary.find_by(employee_id: @employee.id, date: @payslip.date.beginning_of_month)
+    if @salary.present?
+      true
+    else
+      flash[:alert] =  "Salary not added"
+      false
+    end    
+  end
+
+  def is_attendance?    
+    fetch_employee
+    @attendance = Attendance.find_by(employee_id: @employee.id, month: @payslip.date.month)
+    if @attendance.present?
+      true
+    else
+      flash[:alert] =  "Attendance not added"
+      false
+    end    
+  end
+
   def get_unpaid_leaves
-    @attendance =  Attendance.find_by(employee_id: (@payslip.employee), month: @payslip.date.month)
-    @attendance.unpaid_leaves
+    if is_attendance?
+      @attendance.unpaid_leaves
+    else
+      flash['alert']="Fill attendance"
+    end
+  end
+
+  def fetch_employee
+    @employee = Employee.find(@payslip.employee_id)
   end
 
   def get_total_leaves(employee_id, month)    

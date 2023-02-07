@@ -122,49 +122,46 @@ RSpec.describe SalariesController, type: :controller do
     end
   end
 
-  # context 'Post create' do    
-  #   before do 
-  #     @user = create(:user, type: 'Admin')
-  #     sign_in(@user)       
-  #   end
-  #   it 'should create attendance by Admin' do 
-  #     attendances_count = Attendance.all.count       
-  #     post :create, params: {
-  #       attendance: {
-  #           month: rand(1..12),
-  #           working_days: 20,
-  #           unpaid_leaves: 6,
-  #           employee_id: Employee.all.ids[rand(9)]        
-  #       } 
-  #     }
-  #     expect(Attendance.all.count).to eq(attendances_count + 1)
-  #   end
+  context 'Post create' do    
+    before do 
+      @user = create(:user, type: 'Admin')
+      sign_in(@user)       
+    end
+    it 'should create Salary by Admin' do 
+      salaries_count = Salary.all.count       
+      post :create, params: {
+        salary: {
+          total_salary: rand(99999),
+          employee_id: Employee.all.ids[rand(9)],
+          date: DateTime.now
+        }
+      }
+      expect(Salary.all.count).to eq(salaries_count + 1)
+    end
   
 
-  #   it 'should not  create leave by Employee as all attributes not provided' do 
-  #     attendances_count = Attendance.all.count       
-  #     post :create, params: {
-  #       attendance: {
-  #         month: rand(1..12),
-  #         working_days: 20,
-  #         unpaid_leaves: 6         
-  #       } 
-  #     }
-  #     expect(Attendance.all.count).to eq(attendances_count )
-  #   end
-  
-  #   it 'should not  create leave by Employee as no authorised employee present' do 
-  #     sign_out(@user)
-  #     attendances_count = Attendance.all.count       
-  #     post :create, params: {
-  #       attendance: {
-  #         month: rand(1..12),
-  #         working_days: 20,
-  #         unpaid_leaves: 6,
-  #         employee_id: Employee.all.ids[rand(9)]        
-  #       } 
-  #     }
-  #     expect(Attendance.all.count).to eq(attendances_count)
-  #   end
-  # end
+    it 'should not  create salary by Admin as all attributes not provided' do 
+      salaries_count = Salary.all.count        
+      post :create, params: {
+        salary: {          
+          employee_id: Employee.all.ids[rand(9)],
+          date: DateTime.now
+        } 
+      }
+      expect(Salary.all.count).to eq(salaries_count)
+    end
+
+    it 'should not  create salary for unauthorised user' do 
+      salaries_count = Salary.all.count 
+      sign_out(@user)
+      post :create, params: {
+        salary: {
+          total_salary: rand(99999),
+          employee_id: Employee.all.ids[rand(9)],
+          date: DateTime.now
+        }
+      }
+      expect(Salary.all.count).to eq(salaries_count)
+    end
+  end
 end

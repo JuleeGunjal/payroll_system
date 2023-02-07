@@ -3,7 +3,7 @@
   <table class="table table-striped">
 
     <thead style="color: blue">    
-      <th><%= get_name(@salary) %>'s  Salary Details</th>
+      <th><%= @salary.employee.first_name%>'s  Salary Details</th>
     </thead>
 
     <tbody>
@@ -15,7 +15,7 @@
 
       <tr>
         <th scope="row">Employee's  Name</th>
-        <td><%= get_name(@salary) %></td>
+        <td><%= @salary.employee.first_name%></td>
       </tr>
 
       <tr>

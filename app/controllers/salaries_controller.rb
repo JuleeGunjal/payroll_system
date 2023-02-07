@@ -35,19 +35,25 @@ class SalariesController < ApplicationController
     @salary = Salary.new(salary_params)
     updated_date = @salary.date.beginning_of_month
     @existing_salary = Salary.where(employee_id: @salary.employee_id, date: updated_date).first
-    if authorised_admin? && !(@existing_salary.present?) 
-      @salary.date = updated_date
-      if @salary.save
-        flash[:notice] = I18n.t("successful")
-        redirect_to salaries_path
+    if authorised_admin?
+      if !(@existing_salary.present?) 
+        @salary.date = updated_date
+        if @salary.save
+          flash[:notice] = I18n.t("successful")
+          redirect_to salaries_path
+        else
+          flash[:notice] = "Invalid details"
+          redirect_to salaries_path
+        end
       else
-        flash[:notice] = "Invalid details"
+        flash[:alert] = 'Already exits'
         redirect_to salaries_path
-      end
+      end        
     else
       flash[:alert] =  I18n.t("unauthorised")
       redirect_to salaries_path
     end
+    
   end
 
   def edit

@@ -23,24 +23,24 @@ class TaxDeductionsController < ApplicationController
     end
   end
 
-  def new
-    
-    if authorised_employee?
+  def new    
+    if !(authorised_admin?) && authorised_employee? 
       @tax_deduction = TaxDeduction.new
     else
       flash[:alert] =  I18n.t("unauthorised")
-      redirect_to tax_deductions_path
+      redirect_to root_path
     end
   end
 
   def create
+    binding.pry
     @tax_deduction = TaxDeduction.new(tax_deduction_params)    
     if authorised_employee? &&  @tax_deduction.save
       flash[:notice] = I18n.t("successful")
       redirect_to tax_deductions_path
     else
       flash[:alert] =  I18n.t("unauthorised")
-      redirect_to edit_salary_path(@existing_salary)
+      redirect_to root_path
     end
   end
 

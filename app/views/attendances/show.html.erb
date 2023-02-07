@@ -2,7 +2,7 @@
   <table class="table table-striped">
 
     <thead style="color: blue">
-      <th><%= get_name(@attendance) %>'s  attendance Details</th>
+      <th><%= @attendance.employee.first_name %>'s  attendance Details</th>
     </thead>
 
     <tbody>
@@ -14,7 +14,7 @@
 
       <tr>
         <th scope="row">Employee's  Name</th>
-        <td><%= get_name(@attendance) %></td>
+        <td><%= @attendance.employee.first_name  %></td>
       </tr>
 
       <tr>

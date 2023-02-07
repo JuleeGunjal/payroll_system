@@ -2,15 +2,17 @@ class PayslipsController < ApplicationController
   
   before_action :fetch_payslip, only: %i[show edit update destroy]  
 
-  def index
-    if authorised_admin?
-      @payslips = Payslip.all
-    elsif authorised_employee?
-      @payslips = Payslip.where(employee_id: current_user.id)
-    else
-      flash[:alert] =  I18n.t("unauthorised") 
-      redirect_to root_path
-    end    
+  def index 
+    date = params[:date]
+    @payslips = Payslip.where(date: date) 
+    # if authorised_admin?
+    #   @payslips = Payslip.all.order(:date)
+    # elsif authorised_employee?
+    #   @payslips = Payslip.where(employee_id: current_user.id).order(:date)
+    # else
+    #   flash[:alert] =  I18n.t("unauthorised") 
+    #   redirect_to root_path
+    # end    
   end
 
   def show
@@ -41,19 +43,24 @@ class PayslipsController < ApplicationController
     @payslip = Payslip.new(payslip_params)
     updated_date = @payslip.date.end_of_month
     @existing_payslip = Payslip.where(employee_id: @payslip.employee_id, date: updated_date).first
-    if authorised_admin? && !(@existing_payslip.present?) 
+    if authorised_admin? && !(@existing_payslip.present?)
       @payslip.date = updated_date
-      @payslip.taxable_income = find_taxable_income
-      @payslip.payable_salary = find_payable_salary
-      if  @payslip.save
+      if helpers.is_salary? && helpers.is_attendance?     
+        @payslip.taxable_income = find_taxable_income
+        @payslip.payable_salary = find_payable_salary
+        if @payslip.save
         flash[:notice] = I18n.t("successful")
         redirect_to payslips_path
+        else
+        flash[:notice] = I18n.t("unsuccessful")
+        redirect_to root_path
+        end
       else
-        flash[:notice] = "Invalid details"
-        redirect_to payslips_path
+        flash[:notice] = "Add Salary and Attendance "
+        redirect_to root_path
       end
     else
-      flash[:alert] =  I18n.t("unauthorised")
+      flash[:alert] =  "Payslip generated or unauthorised"
       redirect_to payslips_path
     end
   end
@@ -64,34 +71,40 @@ class PayslipsController < ApplicationController
       redirect_to payslips_path
     else
       flash[:alert] =  I18n.t("unauthorised")
-      redirect_to payslips_path
+      return redirect_to payslips_path
     end
   end
 
   protected
 
   def find_taxable_income
-    employee = Employee.find(@payslip.employee_id)
-    payslips = TaxDeduction.where(employee_id: employee.id)
+    employee = helpers.fetch_employee
+    total_salary = helpers.get_salary   
+    payslips = TaxDeduction.where(employee_id: employee.id)    
     total_ammount = 0
-    payslips.each do |payslip|
-      total_ammount = total_ammount + payslip.ammount
-    end
-    @salary = Salary.find_by(employee_id: employee.id, date: @payslip.date.beginning_of_month)
-    @package = @salary.total_salary * 12
-    if total_ammount > 200000
-      @package - 200000
-    else
-      @package - total_ammount
-    end
+    if payslips
+      payslips.each do |payslip|
+        total_ammount = total_ammount + payslip.ammount
+      end   
+    end  
+      @package = total_salary * 12
+      if total_ammount > 200000
+        @package - 200000
+      else
+        @package - total_ammount
+      end
+    
   end
 
   def find_payable_salary
-    employee = Employee.find(@payslip.employee_id)
-    @attendance = Attendance.find_by(employee_id: employee.id, month: @payslip.date.month)
-    leave_cut = @attendance.unpaid_leaves.to_i * (@salary.total_salary / find_working_days)
-    tax_cut = find_tax_bracket.to_i / 12
-    @salary.total_salary - leave_cut - tax_cut
+    total_salary = helpers.get_salary    
+    if helpers.is_attendance? && helpers.is_salary?
+      leave_cut = helpers.get_unpaid_leaves.to_i * (total_salary / find_working_days)
+      tax_cut = find_tax_bracket.to_i / 12
+      total_salary - leave_cut - tax_cut 
+    else
+      flash[:alert] =  "add atendance" 
+    end
   end
 
   def find_tax_bracket
@@ -126,9 +139,10 @@ class PayslipsController < ApplicationController
 
   def fetch_payslip
     @payslip = Payslip.find(params[:id])
-  end
+  end  
 
   def payslip_params
     params.require(:payslip).permit(:date, :employee_id)
   end
+
 end

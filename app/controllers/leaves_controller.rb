@@ -81,7 +81,8 @@ class LeavesController < ApplicationController
     leave_count = Employee.find(@leave.employee_id).paid_leaves
     count = @leave.to_date - @leave.from_date + 1
     @office_days = skip_weekends
-    if leave_count < count
+    weekend = count - @office_days
+    if leave_count < @office_days
       false
     end
     true

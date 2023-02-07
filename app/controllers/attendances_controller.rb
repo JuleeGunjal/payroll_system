@@ -27,12 +27,17 @@ class AttendancesController < ApplicationController
 
   def create
     @attendance = Attendance.new(attendance_params)
-    if !(Attendance.find_by(month: @attendance.month, employee_id: @attendance.employee_id)) && authorised_admin? && @attendance.save
-      @attendance = @attendance.update(working_days: find_working_days(@attendance.id), unpaid_leaves: find_total_unpaid_leaves(@attendance.id))        
-      flash[:notice] = I18n.t("successful") 
-      redirect_to '/attendances'
+    if !(Attendance.find_by(month: @attendance.month, employee_id: @attendance.employee_id))
+      if  authorised_admin? && @attendance.save
+        @attendance = @attendance.update(working_days: find_working_days(@attendance.id), unpaid_leaves: find_total_unpaid_leaves(@attendance.id))        
+        flash[:notice] = I18n.t("successful") 
+        redirect_to '/attendances'
+      else
+        flash[:alert] =  I18n.t("unauthorised")
+        redirect_to '/attendances'
+      end
     else
-      flash[:alert] =  I18n.t("unauthorised")
+      flash[:alert] =  'Already exits'
       redirect_to '/attendances'
     end
   end
@@ -69,7 +74,8 @@ class AttendancesController < ApplicationController
 
   def find_total_unpaid_leaves(id)
     @attendance = Attendance.find(id)
-    leaves = Leave.where('extract(month from from_date) = ?', @attendance.month).where(leave_type: 'Unpaid').where(employee_id: @attendance.employee_id)
+    @attendance.working_days = find_working_days(@attendance.id)
+    leaves = Leave.where('extract(month from from_date) = ?', @attendance.month).where(leave_type: 'unpaid').where(employee_id: @attendance.employee_id)
     @total_leaves = 0
     leaves.each do |leave|
       @total_leaves = @total_leaves + (leave.to_date - leave.from_date).to_i + 1 - skip_weekends(leave)

@@ -3,7 +3,7 @@
   <table class="table table-striped">
 
     <thead style="color: blue">
-      <th><%= get_name(@tax_deduction) %>'s  Deductions Details</th>
+      <th><%= @tax_deduction.employee.first_name %>'s  Deductions Details</th>
     </thead>
 
     <tbody>
@@ -15,7 +15,7 @@
 
       <tr>
         <th scope="row">Employee's  Name</th>
-        <td><%= get_name(@tax_deduction) %></td>
+        <td><%= @tax_deduction.employee.first_name  %></td>
       </tr>
       
       <tr>

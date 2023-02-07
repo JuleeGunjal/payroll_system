@@ -8,7 +8,7 @@
 
     <tr>
       <th>ID</th>
-      <th>Employee Name</th>
+      <th>Employee Id</th>
       <th>Tax type</th>
       <th>Total Ammount</th>
       <th>Financial Year</th>
@@ -22,7 +22,7 @@
 
       <tr>
         <td><%= link_to "#{tax_deduction.id}", tax_deduction_path(tax_deduction)%></td>
-        <td><%= get_name(tax_deduction)%></td>
+        <td><%= tax_deduction.employee_id%></td>
         <td><%= tax_deduction.tax_type%></td> 
         <td><%= tax_deduction.ammount%></td>
         <td><%= tax_deduction.financial_year%></td>        
