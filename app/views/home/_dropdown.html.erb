@@ -12,13 +12,12 @@
 
       <tr>
         <th scope="row", class="table-secondary" style="padding: 15px"><%= link_to "New Employee", new_users_employee_path, class: "btn " %></th>
+      </tr>   
+
+      <tr>
+        <th scope="row", class="table-success" style="padding: 15px" ><%= link_to "All employees",  users_employees_path, class: "btn"%></th>
       </tr>
-
-    <% end %>
-
-    <tr>
-      <th scope="row", class="table-success" style="padding: 15px" ><%= link_to "All employees",  users_employees_path, class: "btn"%></th>
-    </tr>
+     <% end %>
 
     <tr>
       <th scope="row", class="table-danger" style="padding: 15px"><%= link_to "Leaves", leaves_path, class: "btn" %></th>     

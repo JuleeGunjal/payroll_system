@@ -4,11 +4,22 @@ class PayslipsController < ApplicationController
   before_action :fetch_payslip, only: %i[show edit update destroy]
 
   def index
-    @payslips = if params[:search]
-                  Payslip.where(date: params[:search].to_date.end_of_month)
-                else
-                  Payslip.all
-                end
+    if authorised_admin?
+      @payslips = if params[:search]
+                    Payslip.where(date: params[:search].to_date.end_of_month)
+                   else
+                    Payslip.all
+                  end
+    elsif authorised_employee?
+      @payslips = if params[:search]
+                    Payslip.where(date: params[:search].to_date.end_of_month, employee_id: current_user.id)
+                  else
+                    Payslip.where(employee_id: current_user.id)
+                  end
+    else
+      flash[:alert] = I18n.t('unauthorised')
+      redirect_to root_path
+    end        
   end
 
   def show

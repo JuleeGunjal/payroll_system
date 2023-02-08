@@ -46,7 +46,7 @@ class TaxDeductionsController < ApplicationController
 
   def edit
     if authorised_employee?
-      redirect_to edit_tax_deduction_path(@tax_deduction)
+      
     else
       flash[:alert] = I18n.t('unauthorised')
       redirect_to tax_deductions_path

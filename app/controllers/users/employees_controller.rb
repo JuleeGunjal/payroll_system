@@ -74,7 +74,7 @@ module Users
 
     def employee_update_params
       params.require(:employee).permit(:email, :first_name, :last_name, :gender, :date_of_joining, :mobile_number,
-                                       :address)
+                                       :address, :paid_leaves)
     end
   end
 end
