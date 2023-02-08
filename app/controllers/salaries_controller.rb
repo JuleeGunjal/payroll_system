@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class SalariesController < ApplicationController
   before_action :fetch_salary, only: %i[show edit update destroy]
 
-  def index      
-    if authorised_admin? 
+  def index
+    if authorised_admin?
       @salaries = Salary.all
     elsif authorised_employee?
       @salaries = Salary.where(employee_id: current_user.id)
     else
-      flash[:alert] =  I18n.t("unauthorised")
+      flash[:alert] = I18n.t('unauthorised')
       redirect_to root_path
     end
   end
@@ -17,16 +19,16 @@ class SalariesController < ApplicationController
     if authorised_admin? || authorised_employee?
       @salary = Salary.find(params[:id])
     else
-      flash[:alert] =  I18n.t("unauthorised") 
+      flash[:alert] = I18n.t('unauthorised')
       redirect_to root_path
     end
   end
 
   def new
-    if authorised_admin? 
+    if authorised_admin?
       @salary = Salary.new
     else
-      flash[:alert] =  I18n.t("unauthorised") 
+      flash[:alert] = I18n.t('unauthorised')
       redirect_to root_path
     end
   end
@@ -36,58 +38,50 @@ class SalariesController < ApplicationController
     updated_date = @salary.date.beginning_of_month
     @existing_salary = Salary.where(employee_id: @salary.employee_id, date: updated_date).first
     if authorised_admin?
-      if !(@existing_salary.present?) 
+      if !@existing_salary.present?
         @salary.date = updated_date
-        if @salary.save
-          flash[:notice] = I18n.t("successful")
-          redirect_to salaries_path
-        else
-          flash[:notice] = "Invalid details"
-          redirect_to salaries_path
-        end
+        flash[:notice] = if @salary.save
+                           I18n.t('successful')
+                         else
+                           'Invalid details'
+                         end
       else
         flash[:alert] = 'Already exits'
-        redirect_to salaries_path
-      end        
+      end
     else
-      flash[:alert] =  I18n.t("unauthorised")
-      redirect_to salaries_path
+      flash[:alert] = I18n.t('unauthorised')
     end
-    
+    redirect_to salaries_path
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    if authorised_admin? && @salary.update(salary_params) 
-      flash[:notice] = I18n.t("successful")
+    if authorised_admin? && @salary.update(salary_params)
+      flash[:notice] = I18n.t('successful')
       redirect_to salaries_path
     else
-      flash[:alert] =  I18n.t("unauthorised")
+      flash[:alert] = I18n.t('unauthorised')
       redirect_to root_path
     end
   end
 
-
-  def destroy   
+  def destroy
     if @salary.destroy && authorised_admin?
-      flash[:notice] = I18n.t("destroyed")
-      redirect_to salaries_path
+      flash[:notice] = I18n.t('destroyed')
     else
-      flash[:alert] =  I18n.t("unauthorised")
-      redirect_to salaries_path
+      flash[:alert] = I18n.t('unauthorised')
     end
+    redirect_to salaries_path
   end
 
   protected
 
   def fetch_salary
-    @salary = Salary.find(params[:id]) 
+    @salary = Salary.find(params[:id])
   end
 
   def salary_params
     params.require(:salary).permit(:date, :total_salary, :employee_id)
   end
-
 end
